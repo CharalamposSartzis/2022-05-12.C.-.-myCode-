@@ -94,7 +94,8 @@ bool empty_stdin(/*int* choice*/)    // Function to empty stdin and check for th
 
 void print(Student st)
 {
-    printf("\n id: [%d] | name: %s .\n", st.id, st.name);
+    // printf("\n id: [%d] | name: %s .\n", st.id, st.name);
+    printf("%-5d | %-13s\n", st.id, st.name);    //** CHECK format.
 }
 
 void printstudents(list l)
@@ -103,6 +104,8 @@ void printstudents(list l)
     printf("--All students' details: \n");
     // printf("Student with id: %d | name: %s \n", traversal_p->data.id, l->head->data.name);    //** OK
 
+    printf("%-5s | %-13s\n", "ID", "NAME");    //** CHECK format.
+    
     while(traversal_p != NULL)    //**
     {
         // Student st = traversal_p->data;
@@ -115,7 +118,45 @@ void printstudents(list l)
 
 
 
-//list load(char* filename);  // retrieve the students' list from file.
+list load(char* filename)  // retrieve the students' list from file.
+{
+    FILE* fd = fopen(filename,"r");        // Open file for reading.
+    
+    if(fd == NULL)
+    {
+        fprintf(stderr, "File %s could not be opened in load.\n", filename);
+        // perror("fopen");
+        return NULL;
+    }
+     
+    list newList = createList();
+    Student* newStudent;
+    node newStNode;
+    
+    int stID;
+    char stName[MAXSTRING + 1];
+
+    fscanf(fd, "%d%s", &stID, stName);    //** Read from fd -> data of type/format int|char* -> save them at local variables ID and name.
+    
+    while(!feof(fd))    // OR 1 == fscanf(fd, "%d", &age)).
+    { 
+        //** Create new student node with the data saved at local variables ID and name. Then insert it to the list.
+        
+        newStudent = createStudent();  
+        newStudent->id = stID;
+        strcpy(newStudent->name, stName);
+        
+        newStNode = createStNode(newStudent);
+        insert(newStNode, newList);
+
+        //** Read from fd -> data of type/format int|char* -> save them at local variables ID and name.
+        fscanf(fd, "%d%s", &stID, stName);    
+    }
+    
+    fclose(fd);
+    return newList;    //** Return the list filled with the file data.
+}
+
 //void save(char* filename, list l);  // save the students' list at file.
 
 //** WILL BE replaced by LOAD.
@@ -167,7 +208,7 @@ void insert(node stNode, list l)        // Insert a new student node at the end 
 }
 
 // Sets the data of the student at a node.
-Student* createStudent()
+Student* createStudent()            //** ADD parameters.
 {
     // // Create the new student node with the data of the new student.
     // node stNode = createStNode();      //** MUST BE called AFTER its definition!!

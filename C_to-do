@@ -1,3 +1,7 @@
 if def - no def
 pragma once
 [HUA eclass]
+
+user prompt for name giving -> inside addStudent.
+addStudent() -> use of createStudent
+                        (with parameters ADDED).

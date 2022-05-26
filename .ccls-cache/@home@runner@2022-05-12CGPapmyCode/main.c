@@ -3,21 +3,25 @@
 #include "student.h"
 //#include <string.h>
 
-int main(void)        //** CHANGE args.
+int main(int argc, char **argv)        //** CHANGE args.
 {
-    // //**CHOICE: Add student.
-    // Student *st_p = NULL;
-    // addStudent(*st_p, studentList);
-
-    // char a[10];
-    // printf("%zu", strlen(a));    // printed at console: 0
-
-    // printf("\nEnter the id of the student which you want to delete: ");
-    //** ++ CHECK the the input (++).
-    // scanf("%d", st.id);      // Save the user's input as the name of the new student.
+    // if (argc >= 2)
+    //      fp = fopen(argv[1], "w");
+    // else fp = fopen("file.txt", "w");
     
-    //** REPLACE by (or INSIDE) load().
-    list studentList = createList();          //** LOOK at head and tail values: if NULL.
+    if(argc >= 2)
+    {
+        char* filename = argv[1];    //**
+    }
+    else//
+    {
+        
+    }
+    
+    //** INSIDE load().
+    // list studentList = createList();          //** LOOK at head and tail values: if NULL.
+    list studentList = load();
+    
     // char* newStName;           //**
     Student* newStudent;       //**
     int addSt = 0;        //**
@@ -49,7 +53,7 @@ int main(void)        //** CHANGE args.
         clearInput = empty_stdin();        //** CHECK
         
         if(scanReturn == EOF) /* user generates manual EOF */
-        {   
+        {       
             printf("\n\nUser canceled input...\n");
             //** ++ Do you want to exit the program? ...
             return 1;    //**
