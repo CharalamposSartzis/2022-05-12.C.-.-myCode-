@@ -120,40 +120,52 @@ void printstudents(list l)
 
 list load(char* filename)  // retrieve the students' list from file.
 {
+    list newList = createList();
+    
     FILE* fd = fopen(filename,"r");        // Open file for reading.
     
+    //if( (fd = fopen(filename,"r")) == NULL )        //**
     if(fd == NULL)
     {
-        fprintf(stderr, "File %s could not be opened in load.\n", filename);
-        // perror("fopen");
-        return NULL;
+        //** ++
+        fprintf(stderr, "File %s does NOT exist or \n could NOT be opened in load! \nΕmpty list is created and returned.\n", filename);
+        /*// perror("fopen");
+        // printf ( "\nFile␣could␣not␣be␣opened\n" ) ;
+        // exit(1);
+        // return newList;*/
     }
-     
-    list newList = createList();
-    Student* newStudent;
-    node newStNode;
-    
-    int stID;
-    char stName[MAXSTRING + 1];
-
-    fscanf(fd, "%d%s", &stID, stName);    //** Read from fd -> data of type/format int|char* -> save them at local variables ID and name.
-    
-    while(!feof(fd))    // OR 1 == fscanf(fd, "%d", &age)).
-    { 
-        //** Create new student node with the data saved at local variables ID and name. Then insert it to the list.
+    else
+    {
+        // list newList = createList();
+        Student* newStudent;
+        node newStNode;
         
-        newStudent = createStudent();  
-        newStudent->id = stID;
-        strcpy(newStudent->name, stName);
+        int stID;
+        char stName[MAXSTRING + 1];        //** [++] CHECK: +1 pos for '\0'.
+    
+        fscanf(fd, "%d%s", &stID, stName);    //** Read from fd -> data of type/format int|char* -> save them at local variables ID and name.
         
-        newStNode = createStNode(newStudent);
-        insert(newStNode, newList);
+        while(!feof(fd))    // OR 1 == fscanf(fd, "%d", &age)).
+        { 
+            //** Create new student node with the data saved at local variables ID and name. Then insert it to the list.
+            
+            newStudent = createStudent();  
+            newStudent->id = stID;
+            strcpy(newStudent->name, stName);
+            
+            newStNode = createStNode(newStudent);
+            insert(newStNode, newList);
+    
+            //** Read from fd -> data of type/format int|char* -> save them at local variables ID and name.
+            fscanf(fd, "%d%s", &stID, stName);    
+        }
+        printf("TEST Info: %d  |  %s\n\n", stID, stName);        // 
+        printf("List loaded successfully from file %s!", filename);
 
-        //** Read from fd -> data of type/format int|char* -> save them at local variables ID and name.
-        fscanf(fd, "%d%s", &stID, stName);    
+        fclose(fd);
     }
     
-    fclose(fd);
+    // fclose(fd);        //**ERROR: signal: segmentation fault (core dumped) -> Try to close a file that doesn't exist OR couldn't be opened... 
     return newList;    //** Return the list filled with the file data.
 }
 

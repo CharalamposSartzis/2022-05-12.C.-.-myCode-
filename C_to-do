@@ -5,3 +5,16 @@ pragma once
 user prompt for name giving -> inside addStudent.
 addStudent() -> use of createStudent
                         (with parameters ADDED).
+
+free(student) inside addStudent.
+numStudent inside createStudent OR in new function.
+
+numStudents: to be equal with the last id read from file.
+
+delete: first give info, then question if you want to delete.
+
+id inside createStudent, as argument. pass numStudents at the call.
+
+createNode + insert: inside addStudent
+
+If EOF: blank line -> OK, if student -> saves data [NOT put in the list!!].

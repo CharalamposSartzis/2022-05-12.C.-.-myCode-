@@ -8,19 +8,21 @@ int main(int argc, char **argv)        //** CHANGE args.
     // if (argc >= 2)
     //      fp = fopen(argv[1], "w");
     // else fp = fopen("file.txt", "w");
+    char* filename;
     
     if(argc >= 2)
     {
-        char* filename = argv[1];    //**
+        filename = argv[1];    //** should be: "students.txt"
     }
     else//
     {
-        
+        //**FIX: EOF/don't start program if filename NOT given.
+        filename = "students_2.txt";
     }
     
     //** INSIDE load().
     // list studentList = createList();          //** LOOK at head and tail values: if NULL.
-    list studentList = load();
+    list studentList = load(filename);
     
     // char* newStName;           //**
     Student* newStudent;       //**
