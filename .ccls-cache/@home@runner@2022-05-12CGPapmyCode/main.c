@@ -29,14 +29,14 @@ int main(int argc, char **argv)        //** CHANGE args.
     int addSt = 0;        //**
     int searchID = 0;     //**
     
-    // if(choice)
+    /*// if(choice)   ==  if(choice NOT zero)
     // {
     //     printf("true");
     // }
     // else
     // {
     //     printf("false");
-    // }
+    // }*/
 
     int choice = 0,
         scanReturn = 0;    /* variable to save scanf return */

@@ -11,9 +11,9 @@
 // node stNode;
 
 
-typedef struct //Student
+typedef struct    //** Student
 {
-    char name[MAXSTRING + 1];      //**CHECK [+1]->'\0' end. name value: the address of the char array (address of the 1st element).
+    char name[MAXSTRING + 1];      //** (++ check for input length) CHECK [+1]->'\0' end. name value: the address of the char array (address of the 1st element).
     int id;
 }Student;
 

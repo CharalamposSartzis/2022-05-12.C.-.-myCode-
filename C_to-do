@@ -17,4 +17,6 @@ id inside createStudent, as argument. pass numStudents at the call.
 
 createNode + insert: inside addStudent
 
-If EOF: blank line -> OK, if student -> saves data [NOT put in the list!!].
+If EOF: blank line -> OK, 
+if EOF: and the end of student line -> saves data [NOT put in the list!!].
+SOLUTION: Αρχεία τυχαίας προσπέλασης (HUA eclass).

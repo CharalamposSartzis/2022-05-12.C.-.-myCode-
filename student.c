@@ -137,27 +137,33 @@ list load(char* filename)  // retrieve the students' list from file.
     else
     {
         // list newList = createList();
-        Student* newStudent;
+        Student* newStudent = createStudent();
         node newStNode;
         
         int stID;
         char stName[MAXSTRING + 1];        //** [++] CHECK: +1 pos for '\0'.
     
-        fscanf(fd, "%d%s", &stID, stName);    //** Read from fd -> data of type/format int|char* -> save them at local variables ID and name.
+        // fscanf(fd, "%d%s", &stID, stName);    //** Read from fd -> data of type/format int|char* -> save them at local variables ID and name.
         
-        while(!feof(fd))    // OR 1 == fscanf(fd, "%d", &age)).
+        // while(!feof(fd))    // OR 1 == fscanf(fd, "%d", &age)).
+        while(1)
         { 
             //** Create new student node with the data saved at local variables ID and name. Then insert it to the list.
-            
+            fscanf(fd, "%d%s", &stID, stName);    //** Read from fd -> data of type/format int|char* -> save them at local variables ID and name.
+
+            if(feof(fd))
+            {
+                
+            }
             newStudent = createStudent();  
             newStudent->id = stID;
             strcpy(newStudent->name, stName);
             
             newStNode = createStNode(newStudent);
             insert(newStNode, newList);
-    
-            //** Read from fd -> data of type/format int|char* -> save them at local variables ID and name.
-            fscanf(fd, "%d%s", &stID, stName);    
+
+            //** !!
+            free(newStudent);    
         }
         printf("TEST Info: %d  |  %s\n\n", stID, stName);        // 
         printf("List loaded successfully from file %s!", filename);
@@ -169,7 +175,56 @@ list load(char* filename)  // retrieve the students' list from file.
     return newList;    //** Return the list filled with the file data.
 }
 
-//void save(char* filename, list l);  // save the students' list at file.
+void save(char* filename, list l)  // save the students' list at file.
+{
+    node temp = l->head;
+    Student st;        //**
+    long f_write;        //**
+    
+    FILE* fd = fopen (filename, "w");
+    
+    if(fd == NULL)
+    {
+        fprintf(stderr, "\nCouldn't open/create the file %s...\n", filename);
+        // exit (1);
+        return;    //**
+    }
+    // else
+    // {
+
+        if(listIsEmpty(l))
+        {
+            printf("\nThe list is empty. The file %s has NO data inside it.\n", filename);
+            
+            return;    //**
+        }
+    
+        // writing all the nodes of the list to the file
+        while(temp!=NULL)
+        {
+            st = temp->data;
+
+            // if(st.id > 0)    //** The program gives an auto ID. Maybe CHECK the id given.
+            // {
+                fseek(fd, (st.id - 1)*sizeof(st), SEEK_SET);            //** 1st id: =1. To begin from pos 0 -> (st.id - 1).
+                f_write = fwrite(temp, sizeof(st), 1, fd);    
+            // }
+            
+            temp = temp->next;
+        }
+        
+        if(f_write != 0)    //**
+        {
+            printf("List saved in the file %s successfully! \n", filename);
+        }
+        else
+        {
+            fprintf(stderr, "Error while writing in the file %s...\n", filename);
+        }
+        
+        fclose(fd);
+    // } 
+}
 
 //** WILL BE replaced by LOAD.
 list createList()
