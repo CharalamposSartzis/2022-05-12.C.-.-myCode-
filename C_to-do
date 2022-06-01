@@ -23,4 +23,5 @@ SOLUTION: Αρχεία τυχαίας προσπέλασης (HUA eclass).
 
 EOF and NULL checks.
 
-FIX DEFAULT_NAME and createStudent.
+-> FIX DEFAULT_NAME and createStudent [params + not malloc(var at the begin of main)].
+add, delete, update RETURN TYPE [int].
