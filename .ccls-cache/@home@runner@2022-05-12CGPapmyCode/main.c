@@ -17,14 +17,15 @@ int main(int argc, char **argv)        //** CHANGE args.
     else//
     {
         //**FIX: EOF/don't start program if filename NOT given.
-        filename = "students_2.txt";
+        filename = "students_2.txt";            //** IF FILE EXISTS: BUS ERROR... -> load()
+        // filename = "students_1.txt";        //** BUS ERROR... -> load()
     }
     
     //** INSIDE load().
     // list studentList = createList();          //** LOOK at head and tail values: if NULL.
     list studentList = load(filename);
     
-    // char* newStName;           //**
+    char newStName[MAXSTRING + 1];           //** FIX
     Student* newStudent;       //**
     int addSt = 0;        //**
     int searchID = 0;     //**
@@ -58,6 +59,9 @@ int main(int argc, char **argv)        //** CHANGE args.
         {       
             printf("\n\nUser canceled input...\n");
             //** ++ Do you want to exit the program? ...
+
+            //** save()...
+            
             return 1;    //**
             // exit(0);     //**
         }
@@ -78,11 +82,14 @@ int main(int argc, char **argv)        //** CHANGE args.
             {
                 case 1:        // Create student.
                 {
+                    //** FIX this: WITHOUT malloc. [++] Prompts inside functions!    <<---
                     newStudent = createStudent();
                     printf("--name: %s\n", newStudent->name);    //** CHECK the name.
                     printf("Please give the name of the new student you want to create: ");    //**
-                    scanf("%s", newStudent->name);            //** CHECK over-write.
-                    printf("--name: %s\n", newStudent->name);    //** CHECK the saved name.
+                    // scanf("%s", newStudent->name);       //** CHECK over-write -> THERE was a PROBLEM: (e.g. Geo,'\0',ULT_NAME).
+                    scanf("%s", newStName);                 //** CHECK over-write.
+                    strcpy(newStudent->name, newStName);    //** CHECK over-write.
+                    printf("--name: %s\n", newStudent->name);    //** CHECK the saved name. DEFAULT
                         
                     addSt = addStudent(*newStudent, studentList);        //** The student gets an ID when added to the list. 
                     if(addSt>0)        //** if(addSt)
@@ -207,7 +214,9 @@ int main(int argc, char **argv)        //** CHANGE args.
                 case 0:        // Exit the program.
                 {
                     printf("\nYou are going to exit the program...\n");
-                        
+
+                    save("students_2.txt", studentList);        //**
+                    
                     // return 1;        //** [??]
                     exit(0);            //**
                     // return 1;        //** [??]
