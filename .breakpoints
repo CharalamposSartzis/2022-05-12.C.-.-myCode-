@@ -2,18 +2,24 @@
   "files": {
     "main.c": [
       {
+        "id": "d4269598-a4b6-4280-b2e0-a692ea844701",
+        "line": 106,
+        "version": 8822,
+        "index": 3823
+      },
+      {
         "id": "1a36b08e-7dd8-4804-83a2-2210a17b29c5",
         "line": 219,
-        "version": 8756,
-        "index": 8530
+        "version": 8767,
+        "index": 8570
       }
     ],
     "student.c": [
       {
         "id": "89e784f4-0fef-4bec-a148-30b692b8e579",
-        "line": 185,
-        "version": 13422,
-        "index": 6251
+        "line": 156,
+        "version": 13617,
+        "index": 4704
       }
     ]
   }

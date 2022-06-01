@@ -1,31 +1,41 @@
-if def - no def
-pragma once
-[HUA eclass]
+//user prompt for name giving -> inside addStudent.
+//addStudent() -> use of createStudent (with parameters ADDED).
 
-user prompt for name giving -> inside addStudent.
-addStudent() -> use of createStudent
-                        (with parameters ADDED).
+//free(student) inside addStudent.
 
-free(student) inside addStudent.
-numStudent inside createStudent OR in new function.
+//numStudent inside createStudent OR in new function.
 
-numStudents: to be equal with the last id read from file.
+//numStudents: to be equal with the last id read from file.
 
-delete: first give info, then question if you want to delete.
+//id inside createStudent, as argument. pass numStudents at the call.
 
-id inside createStudent, as argument. pass numStudents at the call.
+//createNode + insert: inside addStudent
 
-createNode + insert: inside addStudent
+//If EOF: blank line -> OK, 
+//if EOF: and the end of student line -> saves data [NOT put in the list!!].
 
-If EOF: blank line -> OK, 
-if EOF: and the end of student line -> saves data [NOT put in the list!!].
-SOLUTION: Αρχεία τυχαίας προσπέλασης (HUA eclass).
+//SOLUTION: Αρχεία τυχαίας προσπέλασης (HUA eclass).
+
+//FIX DEFAULT_NAME 
+
+//Διαγραφή από την ουρά: εκνέου ανάθεση το ID του διαγραμμένου [??]
+
+//Prompts inside functions!
 
 EOF and NULL checks.
 
--> FIX DEFAULT_NAME and createStudent [params + not malloc(var at the begin of main)].
-add, delete, update RETURN TYPE [int].
+createStudent [not malloc(var at the begin of main)].
 
-Show empty list msg -> when choice is 2-5.
+if def - no def, pragma once [HUA eclass].
 
-Διαγραφή από την ουρά: εκνέου ανάθεση το ID του διαγραμμένου [??]
+--> strlen CHECK at userPrompt - addSt().
+
+--> FIX cmd args (filename CHECKS etc).
+
+--> add, delete, update RETURN TYPE [int]. μεταβλητή που επιστρ η addSt [HUA eclass].
+
+--> Show empty list msg -> when choice is 2-5.
+
+--> delete: first give info, then question if you want to delete.
+
+--> free(student) AFTER addStudent.

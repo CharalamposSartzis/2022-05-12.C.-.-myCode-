@@ -74,36 +74,31 @@ int main(int argc, char **argv)        //** CHANGE args.
             printf("\nInvalid input! You must enter only 1 integers and NO characters! \nPlease try again.\n");    //**
         }
         else        //** Reads an integer and the rest input is clear: doesn't contain any character/letter.
-        {
-            printf("\n** [Valid choice.] **\n\n");        //** ONLY for CHECK.
-            //empty_stdin();
-            
+        {    
             switch(choice)
             {
                 case 1:        // Create student.
                 {
-                    //** Prompts inside functions!    <<---
-                    
-                    newStudent = createStudent();
+                    newStudent = createStudent();        //** ALSO used in load().
                     newStudent->id = getNumStudents();    //** FIX with ifdef - nodef [??].
-                    printf("Please give the name of the new student you want to create: ");    //**
+                    printf("Please give the name of the new student you want to create: ");    //** ++ CHECK for strlen.
                     scanf("%s", newStudent->name);                 //** CHECK over-write.
 
-                    //** EXTRA function [??]. Also in load().
+                    //** Also in load().
                     addSt = addStudent(*newStudent, studentList);        //** The student gets an ID when added to the list. 
                     if(addSt>0)        //** if(addSt)
                     {
-                        printf("The student has been added successfully! Given id: [%d]. ", addSt);
-                        free(newStudent);        //** ++
+                        printf("\nThe student has been added successfully! Given id: [%d]. \n", addSt);
+                        // free(newStudent);        //** ++ MORE CHECKS.
                     }
                     else
                     {
-                        printf("Student has NOT been added to the list...");
+                        printf("\nStudent has NOT been added to the list! Please make a choice and try again. \n");
                         //** free(newStudent);        //** ++ do-while
                         //** ++
                     }
                     
-                    //** free(newStudent);
+                    free(newStudent);
                     
                     break;
                 }
@@ -197,6 +192,7 @@ int main(int argc, char **argv)        //** CHANGE args.
                         if(addSt>0)        //** if(addSt)
                         {
                             printf("\n The student with id: [%d] has been deleted successfully!", addSt);
+                            //++ MORE CHECKS.
                         }
                         else
                         {

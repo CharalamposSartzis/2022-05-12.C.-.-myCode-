@@ -131,35 +131,28 @@ list load(char* filename)  // retrieve the students' list from file.
     
     FILE* fd = fopen(filename,"r");        // Open file for reading.
     
-    //if( (fd = fopen(filename,"r")) == NULL )        //**
     if(fd == NULL)
     {
         //** ++
         fprintf(stderr, "File %s does NOT exist or \n could NOT be opened in load! \nΕmpty list is created and returned.\n", filename);
-        /*// perror("fopen");
         // return newList;*/
     }
     else
     {
         Student* newStudent;        //** CHANGE name: newSt_p
-        // Student tempSt = {0, ""};        //**
         node newStNode;
         int addSt = 0;        //**
 
-        int lastID = 0;        //** Holds the id of the last student loaded from the file. +1: is the next available id for the next students added from the user
+        // int lastID = 0;        //** Holds the id of the last student loaded from the file. +1: is the next available id for the next students added from the user
 
-        size_t f_read = 1;
         int i = 0;
+        size_t f_read = 0;
         size_t st_size = sizeof(Student);
-        bool flag = false;    //**
+        //bool flag = false;    //**
 
         fseek(fd, 0, SEEK_END);                //** BE CAREFUL !!
         size_t last_position = ftell(fd);        //** CHECK if last pos = (total size) OR (total size - 1) !!
         
-        // while(!feof(fd))     //**   NOT working: When i==2 -> we don't reach the end of file. We are at the START of the LAST student!
-                                //**                When i==3 -> we reach EOF. The fseek goes 1 position AFTER the EOF -> we add an "empty" student at the list!
-                                //**                Then it stops...
-        // while( (i*st_size) <= feof(fd) )
         //while(1)        //** [OK] If fread==0 -> EOF.
         while( (i*st_size) < last_position ) //** CHECK if last pos = ([OK: THIS IS]totalSize <- lastAddress + 1) OR (totalSize - 1) !!
         { 
@@ -354,8 +347,6 @@ int addStudent(Student st, list l)      //** CHECK return type [LECTURES]. Add n
 {    
     // Set the student's data: name and id.  //
     
-    // ++numStudents;  // Every call of the function adds a new student and increases the number of students at the list.
-    
     // Create the new student node with the data of the new student.
     node stNode = createStNode(&st);      //** [??] MUST BE called AFTER its definition!! 
 
@@ -364,7 +355,7 @@ int addStudent(Student st, list l)      //** CHECK return type [LECTURES]. Add n
 
     //** FREE the student argument, AFTER the function call.
     
-    return st.id;    //** [++] [??] return the id of the student who has just been added to the list.
+    return st.id;    //** [++ HUA labs/lecs] [??] return the id of the student who has just been added to the list.
 }
 
 Student* findStudent(int id, list l)  //** search for the student at the list, based on id.
