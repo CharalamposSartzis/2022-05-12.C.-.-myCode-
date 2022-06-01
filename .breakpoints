@@ -2,34 +2,18 @@
   "files": {
     "main.c": [
       {
-        "id": "38e3ebe8-f62e-46b9-bb10-465ecc8b2280",
-        "line": 86,
-        "version": 8586,
-        "index": 2742
-      },
-      {
-        "id": "41d892a9-064c-4fe0-95ff-6848188e756a",
-        "line": 91,
-        "version": 8586,
-        "index": 3193
-      },
-      {
-        "id": "38b48d7d-46b7-4590-9433-5231c407cc73",
-        "line": 92,
-        "version": 8586,
-        "index": 3276
-      },
-      {
-        "id": "f5e0ff5f-28a5-4c1d-8649-f434a711695b",
-        "line": 94,
-        "version": 8586,
-        "index": 3401
-      },
-      {
         "id": "1a36b08e-7dd8-4804-83a2-2210a17b29c5",
-        "line": 218,
-        "version": 8586,
-        "index": 8703
+        "line": 219,
+        "version": 8756,
+        "index": 8530
+      }
+    ],
+    "student.c": [
+      {
+        "id": "89e784f4-0fef-4bec-a148-30b692b8e579",
+        "line": 185,
+        "version": 13422,
+        "index": 6251
       }
     ]
   }

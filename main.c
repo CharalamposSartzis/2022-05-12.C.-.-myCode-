@@ -82,27 +82,28 @@ int main(int argc, char **argv)        //** CHANGE args.
             {
                 case 1:        // Create student.
                 {
-                    //** FIX this: WITHOUT malloc. [++] Prompts inside functions!    <<---
+                    //** Prompts inside functions!    <<---
+                    
                     newStudent = createStudent();
-                    printf("--name: %s\n", newStudent->name);    //** CHECK the name.
+                    newStudent->id = getNumStudents();    //** FIX with ifdef - nodef [??].
                     printf("Please give the name of the new student you want to create: ");    //**
-                    // scanf("%s", newStudent->name);       //** CHECK over-write -> THERE was a PROBLEM: (e.g. Geo,'\0',ULT_NAME).
-                    scanf("%s", newStName);                 //** CHECK over-write.
-                    strcpy(newStudent->name, newStName);    //** CHECK over-write.
-                    printf("--name: %s\n", newStudent->name);    //** CHECK the saved name. DEFAULT
-                        
+                    scanf("%s", newStudent->name);                 //** CHECK over-write.
+
+                    //** EXTRA function [??]. Also in load().
                     addSt = addStudent(*newStudent, studentList);        //** The student gets an ID when added to the list. 
                     if(addSt>0)        //** if(addSt)
                     {
                         printf("The student has been added successfully! Given id: [%d]. ", addSt);
-                        free(newStudent);        //**
+                        free(newStudent);        //** ++
                     }
                     else
                     {
                         printf("Student has NOT been added to the list...");
-                        // free(newStudent);        //** ++ do-while
+                        //** free(newStudent);        //** ++ do-while
                         //** ++
                     }
+                    
+                    //** free(newStudent);
                     
                     break;
                 }

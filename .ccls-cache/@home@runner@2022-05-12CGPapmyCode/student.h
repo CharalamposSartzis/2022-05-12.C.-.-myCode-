@@ -38,6 +38,7 @@ struct listR
 
 int readInput(char* action);            //**
 bool empty_stdin();
+int getNumStudents();
 
 void printMenu();
 void print(Student st);

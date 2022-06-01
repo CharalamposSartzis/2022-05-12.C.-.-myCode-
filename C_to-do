@@ -25,3 +25,7 @@ EOF and NULL checks.
 
 -> FIX DEFAULT_NAME and createStudent [params + not malloc(var at the begin of main)].
 add, delete, update RETURN TYPE [int].
+
+Show empty list msg -> when choice is 2-5.
+
+Διαγραφή από την ουρά: εκνέου ανάθεση το ID του διαγραμμένου [??]
