@@ -13,21 +13,22 @@
 //Prompts inside functions!
 
 //[OK + a\out-HUA] FIX cmd args (filename CHECKS etc).
+//[OK] REPLACE create / put args / not malloc?? : -> use Student newSt + a pointer to it (+ at main) [*].
+//[OK] [*](free(student) AFTER addStudent.)
 
---> [TEST + a\out-HUA]
+--> load and save: ADD CHECKS.
 --> CONNECT return load NULL -> save: file created.
 --> FIX: find student with id=0.
 --> REPLACE ALL: [MAXSTRING] -> [MAXSTRING + 1]    
 --> strlen CHECK (>= 2  kai  <= MAXSTRING) at userPrompt - addSt().
-(--> REPLACE create / put args / not malloc??)
 --> PROBLEM: read OK BUT wrong info [fread].
---> load and save CHECKS.
 --> CLEAN test checks.
---> add, delete, update RETURN TYPE [int] 
-    CHANGE -> τιμή(-1)/μεταβλητή που επιστρ [HUA eclass].
+--> add, delete, update RETURN TYPE [int]: (~ checkDelete) CHANGE -> τιμή(-1)/μεταβλητή που επιστρ [HUA eclass].
 --> Show empty list msg -> when choice is 2-5.
---> delete: first give info, then question if you want to delete.
---> free(student) AFTER addStudent.
+--> delete, update: first give info, then question if you want to delete/update.
+--> [TEST + a\out-HUA]
+
+use rb, wb ??
 
 EOF, NULL and EMPTY checks | add \n.
 

@@ -125,110 +125,103 @@ void printstudents(list l)
 
 
 
-list load(char* filename)  // retrieve the students' list from file.
+list load(char* filename)  // Retrieve the students' list from the file.
 {
-    list newList = createList();
+    list newList = createList();           // The list that will be filled with the loaded data from the file.
     
     FILE* fd = fopen(filename,"r");        // Open file for reading.
     
     if(fd == NULL)
     {
         fprintf(stderr, "File %s does NOT exist or could NOT be opened in load! \nΕmpty list is created and returned.\n", filename);
-        // return newList;
+        return newList;
     }
-    else
-    {
-        Student* newSt_p;        //** CHANGE name: newSt_p
-        node newStNode;
-        int addSt = 0;        //**
-
-        // int lastID = 0;        //** Holds the id of the last student loaded from the file. +1: is the next available id for the next students added from the user
-
-        int i = 0;
-        size_t f_read;
-        size_t st_size = sizeof(Student);
-        //bool flag = false;    //**
-
-        fseek(fd, 0, SEEK_END);                  //** BE CAREFUL !!
-        size_t last_position = ftell(fd);        //** Last pos = (total size) = 
-        
-        //while(1)        //** [OK] If fread==0 -> EOF.
-        while( (i*st_size) < last_position ) //** CHECK if last pos = ([OK: THIS IS]totalSize <- lastAddress + 1) OR (totalSize - 1) !!
-        { 
-            //** Create new student node with the data saved at local variables ID and name. Then insert it to the list.
-            
-            //** FIX
-            //newSt_p = createStudent();    //** CHECK.
-            
-            fseek(fd, i*st_size, SEEK_SET);        //** BE CAREFUL !!
-            f_read = fread(newSt_p, st_size, 1, fd);        // newSt_p is a POINTER!! NOT a struct Student...
-            
-            printf("\n\n** FREAD() TEST st details: \t");
-            print(*newSt_p);
-            printf("\n****\n");
-
-            if(f_read != 1)        //** CHECK
-            {
-                fprintf(stderr, "Problem while loading from the file %s...", filename);
-                break;
-                // return NULL;
-            }
-            if(newSt_p->id < 1)    //++ len.
-            {
-                fprintf(stderr, "The #%d student's data was not read correctly from the file %s...", (i+1), filename);
-                // break;
-                // return NULL;
-            }
-            
-            printf("\n\n** TEST new st details: \t");
-            print(*newSt_p);
-            printf("\n****\n");
-
-            //** FIX [addStudent()].
-            addSt = addStudent(*newSt_p, newList);        //** The student gets an ID when added to the list. 
-            if(addSt<=0)        //** if(addSt)
-            {
-                fprintf(stderr, "Problem while adding student with id [%d] to the list...", newSt_p->id);
-                //** free(newSt_p);        //** ++ do-while
-                break;
-            }
-            else
-            {
-                printf("\nStudent with id: [%d] has been loaded and added to the list successfully! \n", addSt);    //** FOR TEST [--]
-                // lastID = addSt;
-                // free(newSt_p);
-                //** ++
-            }
-
-            // //** !!
-            free(newSt_p);
-            
-            ++i;    //**
-            
-        } //while_end
-
-        // if(f_read == 1)        //** FIX    
-        // {
-        //     printf("List loaded from the file %s successfully! \n", filename);
-        // }
-        // else
-        // {
-        //     fprintf(stderr, "Problem loading list from file %s...\n", filename);
-        // }
-        
-        //++ if nothing wrong
-        numStudents=addSt;    //**
-        
-        fclose(fd);
-
-        if(listIsEmpty(newList))
-        {
-            //** CHECK at run.
-            printf("\nThe file %s has NO data in it! The students' list is empty.\n", filename);
-        }
-    } //else-end: fd NOT NULL.
     
-    return newList;    //** Return the list filled with the file data.
+    Student newSt;                // Student struct variable representing the new student that is loaded and added to the list each time.
+    Student* newSt_p = &newSt;    // The pointer that holds the address of the new student.
+    node newStNode;
+    int addSt = 0;        //**FIX
+
+    // int lastID = 0;        //** Holds the id of the last student loaded from the file. +1: is the next available id for the next students added from the user
+
+    int i = 0;
+    size_t f_read;
+    size_t st_size = sizeof(Student);
+    //bool flag = false;    //**
+
+    fseek(fd, 0, SEEK_END);                  //** BE CAREFUL !!
+    size_t last_position = ftell(fd);        //** Last pos = (total size) = 
+            
+    while( (i*st_size) < last_position ) //** CHECK if last pos = ([OK: THIS IS]totalSize <- lastAddress + 1) OR (totalSize - 1) !!
+    { 
+        //** Create new student node with the data saved at local variables ID and name. Then insert it to the list.
+            
+        fseek(fd, i*st_size, SEEK_SET);        //** BE CAREFUL !!
+        f_read = fread(newSt_p, st_size, 1, fd);        // newSt_p is a POINTER!! NOT a struct Student...
+            
+        printf("\n\n** FREAD() TEST st details: \t");
+        print(*newSt_p);
+        printf("\n****\n");
+
+        if(f_read != 1)        //** CHECK    //** If fread==0 -> EOF.
+        {
+            fprintf(stderr, "Problem while loading from the file %s... \nΕmpty list is created and returned.", filename);
+            // break;
+            return newList;
+        }
+        if(newSt_p->id < 1)    //++ len.
+        {
+            fprintf(stderr, "The #%d student's data was NOT read correctly from the file %s... \nΕmpty list is created and returned.", (i+1), filename);
+            // break;
+            return newList;
+        }
+            
+        printf("\n\n** TEST new st details: \t");
+        print(*newSt_p);
+        printf("\n****\n");
+
+        //** FIX [addStudent()].
+        addSt = addStudent(*newSt_p, newList);        //** The student gets an ID when added to the list. 
+        if(addSt<=0)        //** if(addSt)
+        {
+            fprintf(stderr, "Problem while adding student with id [%d] to the list...", newSt_p->id);
+            //** free(newSt_p);        //** ++ do-while
+            break;
+        }
+        else
+        {
+            printf("\nStudent with id: [%d] has been loaded and added to the list successfully! \n", addSt);    //** FOR TEST [--]
+            // lastID = addSt;
+            //** ++
+        }
+
+        // free(newSt_p);    //** NOT NEEDED.
+            
+        ++i;    //**
+            
+    } //while_end
+
+    // if(f_read == 1)        //** FIX    
+    // {
+    //     printf("List loaded from the file %s successfully! \n", filename);
+    // }
+    // else
+    // {
+    //     fprintf(stderr, "Problem loading list from file %s...\n", filename);
+    // }
+        
+    //++ if nothing wrong
+    numStudents=addSt;    //**
+        
+    fclose(fd);
+
+    if(listIsEmpty(newList))
+    {
+        //** CHECK at run.
+        printf("\nThe file %s has NO data in it! The students' list is empty.\n", filename);
+    }
+    
+    return newList;    // Return the list filled with the file data. When there's an  it's empty
 }
 
 void save(char* filename, list l)  // save the students' list at file.
@@ -236,6 +229,8 @@ void save(char* filename, list l)  // save the students' list at file.
     // We use load() at the beginning of the program. Therefore, the list l already exists.
     node temp = l->head;
     Student st;        //**
+
+    int i = 0;
     size_t f_write;        //**
     
     FILE* fd = fopen(filename, "w");
@@ -262,11 +257,11 @@ void save(char* filename, list l)  // save the students' list at file.
         print(st);
         printf("\n **** \n\n");
   
-        //**FIX: USE index i INSTEAD of id !!
-        fseek(fd, (st.id - 1)*sizeof(Student), SEEK_SET);       //** 1st id: =1. To begin from pos 0 -> (st.id - 1).
+        fseek(fd, i*sizeof(Student), SEEK_SET);                 //** 
         f_write = fwrite(&st, sizeof(Student), 1, fd);          //** [!!] &st.  
                
         temp = temp->next;
+        ++i;
     }
         
     if(f_write != 0)    //**
@@ -329,24 +324,6 @@ void insert(node stNode, list l)        // Insert a new student node at the end 
     l->tail->next = stNode;
     stNode->previous = l->tail;
     l->tail = stNode;
-}
-
-// Sets the data of the student at a node.
-Student* createStudent()            //** ADD parameters.
-{
-    // // Create the new student node with the data of the new student.
-    // node stNode = createStNode();      //** MUST BE called AFTER its definition!!
-        
-    // return &(stNode->data);
-
-    Student* newSt = (Student*)malloc(sizeof(Student));
-
-    newSt->id = 0;        //**
-    strcpy(newSt->name, "");    //** CHECK for Name with len < DEFAULT_NAME len [AND for length=0];
-
-    //** FREE name after the use of the function.
-    
-    return newSt;
 }
 
 
@@ -504,44 +481,41 @@ int updateStudent(Student st, list l)  // update the student's details at the li
     //** CALL: 1st call the findStudent -> place the result as the argument st.
     //** If student exists (at FINDSTUDENT): update the node of the list.
 
-    // int st_id = st.id;     //** FIX-CHANGE
-    int checkUpdate=0;        //** CHECK-DELETE IT.
+    int st_id = st.id;     
+    // int checkUpdate=0;        //** CHECK-DELETE IT.
     node temp;
     char newName[MAXSTRING + 1];    // newName string is deleted/freed at the end of the function.
 
     // CANNOT change student's unique id (given by the application).
-    printf("Write the new name of the student with id = %d: ", st.id);
-    scanf("%s", newName);
+    printf("Write the new name of the student with id = %d: ", st_id);
+    scanf("%s", newName);    //** ++ LEN CHECK.
     
-    if(l->head->data.id == st.id)    // Update the student at the beginning of the list.
+    if(l->head->data.id == st_id)    // Update the student at the beginning of the list.
     {
         strcpy(l->head->data.name, newName);
-        checkUpdate=1;
+        // checkUpdate=1;
     }
-    
-    else if(l->tail->data.id == st.id)    // Update the student at the end of the list.
+    else if(l->tail->data.id == st_id)    // Update the student at the end of the list.
     {
         strcpy(l->tail->data.name, newName);
-        checkUpdate=1;
+        // checkUpdate=1;
     }
-
     else    // Update the student at a specific position inside the list.
     {
         temp = l->head;          // Pointer to traverse through the list.
-        while(temp->data.id != st.id)    //** NOT NULL: inside findStudent.
+        while(temp->data.id != st_id)    //** NOT NULL: inside findStudent.
         { 
             temp = temp->next;
         }
 
         strcpy(temp->data.name, newName);
-        checkUpdate=1;
+        // checkUpdate=1;
     }
 
-    // ++ at menu.
-    // printf("The student with id = %d has been updated!", st.id);
+    // printf("The student with id = %d has been updated!", st_id);        // ++ at menu.
 
-    return st.id;        //** FIX-CHANGE
     // return checkUpdate;
-   
     // return 0;    // [??] return the id of the student who has just been deleted.
+    
+    return st_id;        //** FIX-CHANGE
 }

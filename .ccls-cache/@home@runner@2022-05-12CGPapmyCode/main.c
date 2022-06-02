@@ -3,6 +3,8 @@
 #include "student.h"
 //#include <string.h>
 
+
+
 int main(int argc, char** argv)        //** CHANGE args.
 {
     if(argc < 2)
@@ -11,7 +13,7 @@ int main(int argc, char** argv)        //** CHANGE args.
         exit(1);
     }
     int argLen = strlen(argv[1]);
-    if(argLen < 2)
+    if(argLen < 2)        //** ++ CHECK for MAXSTRING/MAXLEN.
     {
         fprintf(stderr, "\nYou must enter a file name with a minimum length of 2! Try to compile again.\n\n");
         exit(1);
@@ -21,8 +23,9 @@ int main(int argc, char** argv)        //** CHANGE args.
     // createList();          //** LOOK at head and tail values: if NULL.
     list studentList = load(filename);
     
-    char newStName[MAXSTRING + 1];        //** FIX
-    Student* newSt_p;                  //**
+    //  char newStName[MAXSTRING + 1];        //** FIX
+    Student newSt;        // Student struct variable representing the new student that is added to the list each time.
+    Student* st_p;        // The pointer that holds the address of the student we want to find each time (in order to: print details, update or delete).
     int addSt = 0;        // variable to save the return result of addStudent().
     int searchID = 0;     // variable to save the return result of readInput().
     
@@ -54,8 +57,8 @@ int main(int argc, char** argv)        //** CHANGE args.
 
             save(filename, studentList);
             
-            return 1;    //**
-            // exit(0);     //**
+            return 1;    //** ERROR exit.
+            // exit(1);     //**
         }
         if(scanReturn == 0)    //** Reads a character.
         {   
@@ -71,13 +74,12 @@ int main(int argc, char** argv)        //** CHANGE args.
             {
                 case 1:        // Create student.
                 {
-                    newSt_p = createStudent();        //** ALSO used in load().
-                    newSt_p->id = getNumStudents();    //** FIX with ifdef - nodef [??].
+                    newSt.id = getNumStudents();    //** FIX with ifdef - nodef [??].
                     printf("Please give the name of the new student you want to create: ");    //** ++ CHECK for strlen.
-                    scanf("%s", newSt_p->name);                 //** CHECK over-write.
+                    scanf("%s", newSt.name);        //** CHECK over-write.
 
                     //** Also in load().
-                    addSt = addStudent(*newSt_p, studentList);        //** The student gets an ID when added to the list. 
+                    addSt = addStudent(newSt, studentList);        //** The student gets an ID when added to the list. 
                     if(addSt>0)        //** if(addSt)
                     {
                         printf("\nThe student has been added successfully! Given id: [%d]. \n", addSt);
@@ -90,7 +92,7 @@ int main(int argc, char** argv)        //** CHANGE args.
                         //** ++
                     }
                     
-                    free(newSt_p);
+                    // free(newSt_p);        //** NOT NEEDED: NO stud malloc creation.
                     
                     break;
                 }
@@ -104,11 +106,11 @@ int main(int argc, char** argv)        //** CHANGE args.
                         break;        //** Breaks switch-case.
                     }
                         
-                    newSt_p=findStudent(searchID, studentList);        //** CHANGE name of st* variable.
-                    if(newSt_p != NULL)
+                    st_p = findStudent(searchID, studentList);        //** CHANGE name of st* variable.
+                    if(st_p != NULL)
                     {
                         printf(" \nStudent's details: ");
-                        print(*newSt_p);        //++
+                        print(*st_p);        //++
 
                         // free(newStudent);        //** HERE is the PROBLEM: at [case 3] prints the id BUT NOT the name [name: GARBAGE].
                     }
@@ -134,21 +136,21 @@ int main(int argc, char** argv)        //** CHANGE args.
                         break;        //** Breaks switch-case.
                     }
                     
-                    newSt_p = findStudent(searchID, studentList);
-                    if(newSt_p != NULL)
+                    st_p = findStudent(searchID, studentList);
+                    if(st_p != NULL)
                     {
                         printf(" Student's details: ");
-                        print(*newSt_p);        //++
+                        print(*st_p);        //++
                         
-                        addSt = updateStudent(*newSt_p, studentList);
+                        addSt = updateStudent(*st_p, studentList);
                         if(addSt>0)        //** if(addSt)
                         {
                             printf("\n The student with id: [%d] has been updated successfully! \n New details: ", addSt);
-                            print(*newSt_p);
+                            print(*st_p);
                         }
                         else
                         {
-                            printf("\n Student with id: [%d] has NOT been updated...", newSt_p->id);
+                            printf("\n Student with id: [%d] has NOT been updated...", st_p->id);
                             // free(newSt_p);        //** ++ do-while
                             //** ++
                         }
@@ -172,15 +174,15 @@ int main(int argc, char** argv)        //** CHANGE args.
                         break;        //** Breaks switch-case.
                     }
                     
-                    newSt_p = findStudent(searchID, studentList);
-                    if(newSt_p != NULL)
+                    st_p = findStudent(searchID, studentList);
+                    if(st_p != NULL)
                     {
                         printf(" Student's details: ");
-                        print(*newSt_p);        //++
+                        print(*st_p);        //++
 
                         //++ Do you want to delete him ??
                         
-                        addSt = deleteStudent(*newSt_p, studentList);
+                        addSt = deleteStudent(*st_p, studentList);
                         if(addSt>0)        //** if(addSt)
                         {
                             printf("\n The student with id: [%d] has been deleted successfully!", addSt);
@@ -188,7 +190,7 @@ int main(int argc, char** argv)        //** CHANGE args.
                         }
                         else
                         {
-                            printf("\n Student with id: [%d] has NOT been deleted...", newSt_p->id);
+                            printf("\n Student with id: [%d] has NOT been deleted...", st_p->id);
                             // free(newSt_p);        //** ++ do-while
                             //** ++
                         }
