@@ -133,35 +133,35 @@ list load(char* filename)  // retrieve the students' list from file.
     
     if(fd == NULL)
     {
-        //** ++
-        fprintf(stderr, "File %s does NOT exist or \n could NOT be opened in load! \nΕmpty list is created and returned.\n", filename);
-        // return newList;*/
+        fprintf(stderr, "File %s does NOT exist or could NOT be opened in load! \nΕmpty list is created and returned.\n", filename);
+        // return newList;
     }
     else
     {
-        Student* newStudent;        //** CHANGE name: newSt_p
+        Student* newSt_p;        //** CHANGE name: newSt_p
         node newStNode;
         int addSt = 0;        //**
 
         // int lastID = 0;        //** Holds the id of the last student loaded from the file. +1: is the next available id for the next students added from the user
 
         int i = 0;
-        size_t f_read = 0;
+        size_t f_read;
         size_t st_size = sizeof(Student);
         //bool flag = false;    //**
 
-        fseek(fd, 0, SEEK_END);                //** BE CAREFUL !!
-        size_t last_position = ftell(fd);        //** CHECK if last pos = (total size) OR (total size - 1) !!
+        fseek(fd, 0, SEEK_END);                  //** BE CAREFUL !!
+        size_t last_position = ftell(fd);        //** Last pos = (total size) = 
         
         //while(1)        //** [OK] If fread==0 -> EOF.
         while( (i*st_size) < last_position ) //** CHECK if last pos = ([OK: THIS IS]totalSize <- lastAddress + 1) OR (totalSize - 1) !!
         { 
             //** Create new student node with the data saved at local variables ID and name. Then insert it to the list.
-            //** FIX [++ args]
-            newStudent = createStudent();    //** CHECK.
+            
+            //** FIX
+            newSt_p = createStudent();    //** CHECK.
             
             fseek(fd, i*st_size, SEEK_SET);        //** BE CAREFUL !!
-            f_read = fread(newStudent, st_size, 1, fd);        // newStudent is a POINTER!! NOT a struct Student...
+            f_read = fread(newSt_p, st_size, 1, fd);        // newSt_p is a POINTER!! NOT a struct Student...
             
             if(f_read != 1)        //** CHECK
             {
@@ -171,29 +171,30 @@ list load(char* filename)  // retrieve the students' list from file.
             }
             
             printf("\n\n** TEST new st details: \t");
-            print(*newStudent);
+            print(*newSt_p);
             printf("\n****\n");
 
             //** FIX [addStudent()].
-            addSt = addStudent(*newStudent, newList);        //** The student gets an ID when added to the list. 
+            addSt = addStudent(*newSt_p, newList);        //** The student gets an ID when added to the list. 
             if(addSt<=0)        //** if(addSt)
             {
-                fprintf(stderr, "Problem while adding student with id [%d] to the list...", newStudent->id);
-                //** free(newStudent);        //** ++ do-while
+                fprintf(stderr, "Problem while adding student with id [%d] to the list...", newSt_p->id);
+                //** free(newSt_p);        //** ++ do-while
                 break;
             }
             else
             {
-                printf("\nStudent with id: [%d] has been loaded successfully! \n", addSt);    //** FOR TEST [--]
+                printf("\nStudent with id: [%d] has been loaded and added to the list successfully! \n", addSt);    //** FOR TEST [--]
                 // lastID = addSt;
-                free(newStudent);
+                free(newSt_p);
                 //** ++
             }
 
             // //** !!
-            // free(newStudent);
+            // free(newSt_p);
             
             ++i;    //**
+            
         } //while_end
 
         // if(f_read == 1)        //** FIX    
@@ -209,31 +210,37 @@ list load(char* filename)  // retrieve the students' list from file.
         numStudents=addSt;    //**
         
         fclose(fd);
+    } //else-end: fd NOT NULL.
+
+    if(listIsEmpty(newList))
+    {
+        //** CHECK at run.
+        printf("\nThe file %s has NO data in it! The students' list is empty.\n", filename);
     }
     
-    // fclose(fd);        //**ERROR: signal: segmentation fault (core dumped) -> Try to close a file that doesn't exist OR couldn't be opened... 
     return newList;    //** Return the list filled with the file data.
 }
 
 void save(char* filename, list l)  // save the students' list at file.
 {
-    if(listIsEmpty(l))
-    {
-        printf("\nThe list is empty. The file %s has NO data inside it.\n", filename);
-            
-        return;    //**
-    }
-    
+    // We use load() at the beginning of the program. Therefore, the list l already exists.
     node temp = l->head;
     Student st;        //**
     size_t f_write;        //**
     
-    FILE* fd = fopen (filename, "w");
+    FILE* fd = fopen(filename, "w");
     
     if(fd == NULL)
     {
         fprintf(stderr, "\nCouldn't open/create the file %s...\n", filename);
         // exit (1);
+        return;    //**
+    }
+
+    if(listIsEmpty(l))
+    {
+        printf("\nThe list to be saved is empty! The file %s has NO data in it.\n", filename);
+            
         return;    //**
     }
      
@@ -244,18 +251,11 @@ void save(char* filename, list l)  // save the students' list at file.
         printf("\n ** TEST st details: **\n");    // OK
         print(st);
         printf("\n **** \n\n");
-
-        // if(st.id > 0)    //** The program gives an auto ID. Maybe CHECK the id given.
-        // {
-            
-            //**FIX: USE index i INSTEAD of id !!
-            fseek(fd, (st.id - 1)*sizeof(Student), SEEK_SET);       //** 1st id: =1. To begin from pos 0 -> (st.id - 1).
-            f_write = fwrite(&st, sizeof(Student), 1, fd);          //** [!!] &st.  
-            
-        // }
-
-        // printf("\n ** TEST st details: ");
-            
+  
+        //**FIX: USE index i INSTEAD of id !!
+        fseek(fd, (st.id - 1)*sizeof(Student), SEEK_SET);       //** 1st id: =1. To begin from pos 0 -> (st.id - 1).
+        f_write = fwrite(&st, sizeof(Student), 1, fd);          //** [!!] &st.  
+               
         temp = temp->next;
     }
         
@@ -274,8 +274,6 @@ void save(char* filename, list l)  // save the students' list at file.
 
 
 
-
-//** WILL BE replaced by LOAD.
 list createList()
 {
     list newList = (list)malloc(sizeof(struct listR));

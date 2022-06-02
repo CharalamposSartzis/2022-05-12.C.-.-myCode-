@@ -30,11 +30,13 @@ if def - no def, pragma once [HUA eclass].
 
 --> FIX cmd args (filename CHECKS etc).
 
---> strlen CHECK at userPrompt - addSt().
+--> strlen CHECK (>= 2  kai  <= MAXSTRING) at userPrompt - addSt().
+
+--> load and save CHECKS.
 
 --> CLEAN test checks.
 
---> add, delete, update RETURN TYPE [int]. μεταβλητή που επιστρ η addSt [HUA eclass].
+--> add, delete, update RETURN TYPE [int] -> μεταβλητή που επιστρ [HUA eclass].
 
 --> Show empty list msg -> when choice is 2-5.
 

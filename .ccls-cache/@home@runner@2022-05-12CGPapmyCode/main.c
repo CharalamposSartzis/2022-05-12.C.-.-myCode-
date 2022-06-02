@@ -3,32 +3,28 @@
 #include "student.h"
 //#include <string.h>
 
-int main(int argc, char **argv)        //** CHANGE args.
+int main(int argc, char** argv)        //** CHANGE args.
 {
-    // if (argc >= 2)
-    //      fp = fopen(argv[1], "w");
-    // else fp = fopen("file.txt", "w");
-    char* filename;
-    
-    if(argc >= 2)
+    if(argc < 2)
     {
-        filename = argv[1];    //** should be: "students.txt"
+        fprintf(stderr, "\nYou must enter a file name as a command line argument! Try to compile again.\n\n");
+        exit(1);
     }
-    else//
+    int argLen = strlen(argv[1]);
+    if(argLen < 2)
     {
-        //**FIX: EOF/don't start program if filename NOT given.
-        filename = "students_2.txt";            //** IF FILE EXISTS: BUS ERROR... -> load()
-        // filename = "students_1.txt";        //** BUS ERROR... -> load()
+        fprintf(stderr, "\nYou must enter a file name with a minimum length of 2! Try to compile again.\n\n");
+        exit(1);
     }
+    char* filename = argv[1];
     
-    //** INSIDE load().
-    // list studentList = createList();          //** LOOK at head and tail values: if NULL.
+    // createList();          //** LOOK at head and tail values: if NULL.
     list studentList = load(filename);
     
-    char newStName[MAXSTRING + 1];           //** FIX
-    Student* newStudent;       //**
-    int addSt = 0;        //**
-    int searchID = 0;     //**
+    char newStName[MAXSTRING + 1];        //** FIX
+    Student* newStudent;                  //**
+    int addSt = 0;        // variable to save the return result of addStudent().
+    int searchID = 0;     // variable to save the return result of readInput().
     
     /*// if(choice)   ==  if(choice NOT zero)
     // {
@@ -39,13 +35,9 @@ int main(int argc, char **argv)        //** CHANGE args.
     //     printf("false");
     // }*/
 
-    int choice = 0,
-        scanReturn = 0;    /* variable to save scanf return */
-    bool clearInput;
-
-    bool scan_EOF;
-    bool validInput;
-    bool break_loop_input;
+    int choice;            // variable to save the user's selection from the menu. 
+    int scanReturn;        // variable to save scanf() return.
+    bool clearInput;       // variable to save empty_stdin() return.
     
     while(1 /*true*/)        //**
     {  
@@ -57,15 +49,15 @@ int main(int argc, char **argv)        //** CHANGE args.
         
         if(scanReturn == EOF) /* user generates manual EOF */
         {       
-            printf("\n\nUser canceled input...\n");
+            printf("\n\nUser canceled input... \nYou are going to exit the program...\n");
             //** ++ Do you want to exit the program? ...
 
-            //** save()...
+            save(filename, studentList);
             
             return 1;    //**
             // exit(0);     //**
         }
-        else if(scanReturn == 0)    //** Reads a character.
+        if(scanReturn == 0)    //** Reads a character.
         {   
             printf("\nInvalid input (must be an integer)! Please try again.\n");
         }
