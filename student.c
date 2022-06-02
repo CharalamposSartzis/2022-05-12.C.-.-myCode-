@@ -158,15 +158,25 @@ list load(char* filename)  // retrieve the students' list from file.
             //** Create new student node with the data saved at local variables ID and name. Then insert it to the list.
             
             //** FIX
-            newSt_p = createStudent();    //** CHECK.
+            //newSt_p = createStudent();    //** CHECK.
             
             fseek(fd, i*st_size, SEEK_SET);        //** BE CAREFUL !!
             f_read = fread(newSt_p, st_size, 1, fd);        // newSt_p is a POINTER!! NOT a struct Student...
             
+            printf("\n\n** FREAD() TEST st details: \t");
+            print(*newSt_p);
+            printf("\n****\n");
+
             if(f_read != 1)        //** CHECK
             {
                 fprintf(stderr, "Problem while loading from the file %s...", filename);
                 break;
+                // return NULL;
+            }
+            if(newSt_p->id < 1)    //++ len.
+            {
+                fprintf(stderr, "The #%d student's data was not read correctly from the file %s...", (i+1), filename);
+                // break;
                 // return NULL;
             }
             
@@ -186,12 +196,12 @@ list load(char* filename)  // retrieve the students' list from file.
             {
                 printf("\nStudent with id: [%d] has been loaded and added to the list successfully! \n", addSt);    //** FOR TEST [--]
                 // lastID = addSt;
-                free(newSt_p);
+                // free(newSt_p);
                 //** ++
             }
 
             // //** !!
-            // free(newSt_p);
+            free(newSt_p);
             
             ++i;    //**
             
@@ -210,13 +220,13 @@ list load(char* filename)  // retrieve the students' list from file.
         numStudents=addSt;    //**
         
         fclose(fd);
-    } //else-end: fd NOT NULL.
 
-    if(listIsEmpty(newList))
-    {
-        //** CHECK at run.
-        printf("\nThe file %s has NO data in it! The students' list is empty.\n", filename);
-    }
+        if(listIsEmpty(newList))
+        {
+            //** CHECK at run.
+            printf("\nThe file %s has NO data in it! The students' list is empty.\n", filename);
+        }
+    } //else-end: fd NOT NULL.
     
     return newList;    //** Return the list filled with the file data.
 }
@@ -497,7 +507,7 @@ int updateStudent(Student st, list l)  // update the student's details at the li
     // int st_id = st.id;     //** FIX-CHANGE
     int checkUpdate=0;        //** CHECK-DELETE IT.
     node temp;
-    char newName[MAXSTRING];    // newName string is deleted/freed at the end of the function.
+    char newName[MAXSTRING + 1];    // newName string is deleted/freed at the end of the function.
 
     // CANNOT change student's unique id (given by the application).
     printf("Write the new name of the student with id = %d: ", st.id);

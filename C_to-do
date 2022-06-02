@@ -1,45 +1,44 @@
 //user prompt for name giving -> inside addStudent.
 //addStudent() -> use of createStudent (with parameters ADDED).
-
 //free(student) inside addStudent.
-
 //numStudent inside createStudent OR in new function.
-
 //numStudents: to be equal with the last id read from file.
-
 //id inside createStudent, as argument. pass numStudents at the call.
-
 //createNode + insert: inside addStudent
-
 //If EOF: blank line -> OK, 
-//if EOF: and the end of student line -> saves data [NOT put in the list!!].
-
+    if EOF: and the end of student line -> saves data [NOT put in the list!!].
 //SOLUTION: Αρχεία τυχαίας προσπέλασης (HUA eclass).
-
 //FIX DEFAULT_NAME 
-
 //Διαγραφή από την ουρά: εκνέου ανάθεση το ID του διαγραμμένου [??]
-
 //Prompts inside functions!
 
-EOF and NULL checks.
+//[OK + a\out-HUA] FIX cmd args (filename CHECKS etc).
+
+--> [TEST + a\out-HUA]
+--> CONNECT return load NULL -> save: file created.
+--> FIX: find student with id=0.
+--> REPLACE ALL: [MAXSTRING] -> [MAXSTRING + 1]    
+--> strlen CHECK (>= 2  kai  <= MAXSTRING) at userPrompt - addSt().
+(--> REPLACE create / put args / not malloc??)
+--> PROBLEM: read OK BUT wrong info [fread].
+--> load and save CHECKS.
+--> CLEAN test checks.
+--> add, delete, update RETURN TYPE [int] 
+    CHANGE -> τιμή(-1)/μεταβλητή που επιστρ [HUA eclass].
+--> Show empty list msg -> when choice is 2-5.
+--> delete: first give info, then question if you want to delete.
+--> free(student) AFTER addStudent.
+
+EOF, NULL and EMPTY checks | add \n.
 
 createStudent [not malloc(var at the begin of main)].
 
 if def - no def, pragma once [HUA eclass].
 
---> FIX cmd args (filename CHECKS etc).
-
---> strlen CHECK (>= 2  kai  <= MAXSTRING) at userPrompt - addSt().
-
---> load and save CHECKS.
-
---> CLEAN test checks.
-
---> add, delete, update RETURN TYPE [int] -> μεταβλητή που επιστρ [HUA eclass].
-
---> Show empty list msg -> when choice is 2-5.
-
---> delete: first give info, then question if you want to delete.
-
---> free(student) AFTER addStudent.
+**
+Μπορείτε να χρησιμοποιήσετε κώδικα που βρήκατε στο internet ή βιβλία με τις εξής προϋποθέσεις (μη τήρηση των προϋποθέσεων σημαίνει κακόβουλη συμπεριφορά και θα αξιολογείται σαν αντιγραφή):
+    Να αναφέρετε ποιο κομμάτι και από πού το πήρατε
+    Να καταλαβαίνετε τι είναι αυτό που χρησιμοποιείτε και να είστε προετοιμασμένοι να το εξηγήσετε όταν σας ζητηθεί
+Προσοχή στο μέγεθος των αρχείων που υποβάλλετε. Στις περισσότερες περιπτώσεις το ωφέλιμο κομμάτι της εργασίας δεν είναι λογικό να είναι μεγαλύτερο από 200-300KBs.
+    Η εξέταση της εργασίας γίνεται επάνω στην υποβληθείσα (ή υπό υποβολή σε περιπτώσεις εκπρόθεσμης υποβολής) εργασία, επομένως στην έναρξη της εξέτασης θα πρέπει να την έχετε διαθέσιμη και να είναι πλήρως λειτουργική.
+**
