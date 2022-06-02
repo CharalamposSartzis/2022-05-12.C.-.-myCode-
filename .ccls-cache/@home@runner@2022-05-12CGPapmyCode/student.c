@@ -159,33 +159,33 @@ list load(char* filename)  // Retrieve the students' list from the file.
         fseek(fd, i*st_size, SEEK_SET);        //** BE CAREFUL !!
         f_read = fread(newSt_p, st_size, 1, fd);        // newSt_p is a POINTER!! NOT a struct Student...
             
-        printf("\n\n** FREAD() TEST st details: \t");
+        /*printf("\n\n** FREAD() TEST st details: \t");
         print(*newSt_p);
-        printf("\n****\n");
+        printf("\n****\n");*/
 
         if(f_read != 1)        //** CHECK    //** If fread==0 -> EOF.
         {
-            fprintf(stderr, "Problem while loading from the file %s... \nΕmpty list is created and returned.", filename);
-            // break;
+            clearList(newList);
+            fprintf(stderr, "Problem while loading from the file %s... \nReturn an empty/cleared list.", filename);
+            
             return newList;
         }
         if(newSt_p->id < 1)    //++ len.
         {
-            fprintf(stderr, "The #%d student's data was NOT read correctly from the file %s... \nΕmpty list is created and returned.", (i+1), filename);
-            // break;
+            clearList(newList);
+            fprintf(stderr, "The #%d student's data was NOT read correctly from the file %s... \nReturn an empty/cleared list.", (i+1), filename);
+            
             return newList;
         }
             
-        printf("\n\n** TEST new st details: \t");
+        /*printf("\n\n** TEST new st details: \t");
         print(*newSt_p);
-        printf("\n****\n");
+        printf("\n****\n");*/
 
-        //** FIX [addStudent()].
-        addSt = addStudent(*newSt_p, newList);        //** The student gets an ID when added to the list. 
-        if(addSt<=0)        //** if(addSt)
+        addSt = addStudent(*newSt_p, newList);        //** FIX addStudent().
+        if(addSt<=0)        //**FIX         //** if(addSt)
         {
             fprintf(stderr, "Problem while adding student with id [%d] to the list...", newSt_p->id);
-            //** free(newSt_p);        //** ++ do-while
             break;
         }
         else
@@ -194,25 +194,15 @@ list load(char* filename)  // Retrieve the students' list from the file.
             // lastID = addSt;
             //** ++
         }
-
-        // free(newSt_p);    //** NOT NEEDED.
-            
+     
         ++i;    //**
-            
-    } //while_end
-
-    // if(f_read == 1)        //** FIX    
-    // {
-    //     printf("List loaded from the file %s successfully! \n", filename);
-    // }
-    // else
-    // {
-    //     fprintf(stderr, "Problem loading list from file %s...\n", filename);
-    // }
         
+    } //while_end
+    
     //++ if nothing wrong
     numStudents=addSt;    //**
-        
+
+    printf("List loaded from the file %s successfully! \n", filename);
     fclose(fd);
 
     if(listIsEmpty(newList))
@@ -264,7 +254,7 @@ void save(char* filename, list l)  // save the students' list at file.
         ++i;
     }
         
-    if(f_write != 0)    //**
+    if(f_write != 0)    //** CHANGE
     {
         printf("List saved in the file %s successfully! \n", filename);
     }
@@ -295,6 +285,39 @@ bool listIsEmpty(list l)
     //**
     return ((l->head == NULL) && (l->tail == NULL));
 }
+
+void clearList(list l)    //**
+{
+    if(!listIsEmpty(l))        //** We have at least one (1) node in the list.
+    {
+        node clearNode_p;
+        
+        while(l->head != l->tail)       //** Each time: delete from the beginning/head of the list.
+        {
+            clearNode_p = l->head;
+            
+            l->head = l->head->next;        //** Delete from the beginning of the list.
+            l->head->previous = NULL;
+        
+            free(clearNode_p);
+        }
+        
+        // if(clearNode_p == l->tail)     //**[If: l->head == l->tail] If it's the only node of the list.
+        l->head = NULL;     //** If we only do [l->head = NULL]: OK [l->head == l->tail], if we make 1 null -> the other will be null too.
+        l->tail = NULL;     //**     SAME: l->head = l->tail = NULL;
+        
+        free(clearNode_p);      //** CHECK for totally FREE !!
+        // checkDelete=1;       //** CHECK-FIX.
+        
+        printf("\nΤhe list has been cleared... \n");        //** FOR TEST.
+    }
+    else
+    {
+        printf("\nΤhe list is already empty! \n");
+    }
+}
+
+
 
 node createStNode(Student* st_p) //**    // create a new node with the student's data.
 {
@@ -394,85 +417,64 @@ Student* findStudent(int id, list l)  //** search for the student at the list, b
 
 int deleteStudent(Student st, list l)  // delete the student from the list, based on st.id.
 {
-    //** findStudent(st.id, l); --> CHECK if list is EMPTY.
-    
-    //** CALL: 1st call the findStudent -> place the result as the argument st.
+    //** 1st call the findStudent(st.id, l) [CHECKs if list is EMPTY ++] -> place the result as the argument st.
     //** If student exists (at FINDSTUDENT): delete the node from the list.
+    
+    int st_id = st.id;        //** [SAFER, MORE CORRECT ??]    //**CHECK-FIX.
+    
+    // int checkDelete=0;    //**FIX
+    
+    node delNode_p = l->head;
 
-    // stNode 
-    
-    // int st_id = st.id;        //** [SAFER, MORE CORRECT ??]    //**CHECK-FIX.
-    
-    int checkDelete=0;
-    node temp = l->head;
-
-    if((temp->next == NULL) && (temp->previous == NULL))    //** [OR l->head == l->tail (==temp)] Delete when it's the ONLY element of the list.
+    if(delNode_p->data.id == st_id)    //** 
     {
-        l->head = NULL;        //**
-        l->tail = NULL;
+        if((delNode_p->next == NULL) && (delNode_p->previous == NULL))     //**[OR l->head == l->tail (==temp)] If it's the only node of the list.
+        {
+            l->head = NULL;        //**
+            l->tail = NULL;
         
-        free(temp);        //** CHECK for totally FREE !!
+            // free(delNode_p);      //** CHECK for totally FREE !!
+            // checkDelete=1;        //** CHECK-FIX.
+        }
         
-        checkDelete=1;        //** CHECK-FIX.
-    }
-    
-    else if(l->head->data.id == st.id)    // Delete from the beginning of the list.
-    {
-        // temp = l->head;
-        
-        l->head = l->head->next;        //** CHECK the other way.
+        l->head = l->head->next;        //** Delete from the beginning of the list.
         l->head->previous = NULL;
-        free(temp);
         
-        checkDelete=1;
+        // free(delNode_p);
+        // checkDelete=1;
     }
-    
-    else if(l->tail->data.id == st.id)    // Delete from the end of the list.
+    else if(l->tail->data.id == st_id)    // Delete from the end of the list.
     {
-        temp = l->tail;
+        delNode_p = l->tail;
         
         l->tail = l->tail->previous;
         l->tail->next = NULL;
-        free(temp);
         
-        checkDelete=1;
+        // free(delNode_p);
+        // checkDelete=1;
     }
-
     else    // Delete from a specific position inside the list.
     {
-        // temp = l->head;          // Pointer to traverse through the list.
-        while(temp->data.id != st.id)    //** NOT NULL: inside findStudent.
+        //** delNode_p = l->head;          // Pointer to traverse through the list.
+        while(delNode_p->data.id != st_id)    //** NOT NULL: inside findStudent.
         { 
-            temp = temp->next;
+            delNode_p = delNode_p->next;
         }
 
-        temp->previous->next = temp->next;
-        temp->next->previous = temp->previous;
-        free(temp);
+        delNode_p->previous->next = delNode_p->next;
+        delNode_p->next->previous = delNode_p->previous;
         
-        checkDelete=1;
+        // free(delNode_p);
+        // checkDelete=1;
     }
 
-    //++ free(temp);
-    //++ checkDelete=1;
+    free(delNode_p);        //**
     
-    // ++ at menu.
-    // printf("The student with id = %d has been deleted!", st.id);
+    // printf("The student with id = %d has been deleted!", st.id);     // ++ at menu.
+    
+    return st_id;     //** [SAFER, MORE CORRECT ??]    <--
+    
     // return checkDelete;
-    // return st_id;     //** [SAFER, MORE CORRECT ??]    <--
-
-    return st.id;        //** [OK ??]    //**FIX
-
-
-    // if st==tail (next==null): deleteFromBeg();        // O(1)
-    // if st==head==tail (prev==null && next==null): free(address[pointer]);      // O(1)
-    // else: deleteFromPos(st.id);    // Use findStudent();     // O(n/2)
-  
-    // printf("\nEnter the id of the student which you want to delete: ");    // OK: put as a menu choice.
-    //** ++ CHECK the the input (++).
-    //** ++ FUNCTION for the CHECKS !!
-    // scanf("%d", st.id);      // Save the user's input as the name of the new student.
-    
     // return 0;    // [??] return the id of the student who has just been deleted.
 }
 
@@ -483,8 +485,8 @@ int updateStudent(Student st, list l)  // update the student's details at the li
 
     int st_id = st.id;     
     // int checkUpdate=0;        //** CHECK-DELETE IT.
-    node temp;
-    char newName[MAXSTRING + 1];    // newName string is deleted/freed at the end of the function.
+    node updNode_p;                 // Pointer that holds the address of the node that its data (student) is going to be updated.
+    char newName[MAXSTRING + 1];    //**
 
     // CANNOT change student's unique id (given by the application).
     printf("Write the new name of the student with id = %d: ", st_id);
@@ -492,30 +494,34 @@ int updateStudent(Student st, list l)  // update the student's details at the li
     
     if(l->head->data.id == st_id)    // Update the student at the beginning of the list.
     {
-        strcpy(l->head->data.name, newName);
+        updNode_p = l->head;
+        // strcpy(l->head->data.name, newName);
         // checkUpdate=1;
     }
     else if(l->tail->data.id == st_id)    // Update the student at the end of the list.
     {
-        strcpy(l->tail->data.name, newName);
+        updNode_p = l->tail;
+        // strcpy(l->tail->data.name, newName);
         // checkUpdate=1;
     }
     else    // Update the student at a specific position inside the list.
     {
-        temp = l->head;          // Pointer to traverse through the list.
-        while(temp->data.id != st_id)    //** NOT NULL: inside findStudent.
+        updNode_p = l->head;          // Pointer to traverse through the list.
+        while(updNode_p->data.id != st_id)    //** NOT NULL: inside findStudent.
         { 
-            temp = temp->next;
+            updNode_p = updNode_p->next;
         }
 
-        strcpy(temp->data.name, newName);
+        // strcpy(updNode_p->data.name, newName);
         // checkUpdate=1;
     }
 
+    strcpy(updNode_p->data.name, newName);        //**
+    
     // printf("The student with id = %d has been updated!", st_id);        // ++ at menu.
+    
+    return st_id;        //** FIX
 
     // return checkUpdate;
     // return 0;    // [??] return the id of the student who has just been deleted.
-    
-    return st_id;        //** FIX-CHANGE
 }

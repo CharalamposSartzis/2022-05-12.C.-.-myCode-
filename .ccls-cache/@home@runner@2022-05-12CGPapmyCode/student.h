@@ -53,6 +53,7 @@ int updateStudent(Student st, list l);      // update the student's details at t
 
 list createList();                        //**
 bool listIsEmpty(list l);                 //**
+void clearList(list l);                   //**
 node createStNode(/*Student st*/);        // create a new node with the student's data.
 void insert(node stNode, list l);         // Insert a new student node at the end (tail) of the list.
 Student* createStudent();       // Sets the data of the student at a node.
