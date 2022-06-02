@@ -28,9 +28,11 @@ createStudent [not malloc(var at the begin of main)].
 
 if def - no def, pragma once [HUA eclass].
 
+--> FIX cmd args (filename CHECKS etc).
+
 --> strlen CHECK at userPrompt - addSt().
 
---> FIX cmd args (filename CHECKS etc).
+--> CLEAN test checks.
 
 --> add, delete, update RETURN TYPE [int]. μεταβλητή που επιστρ η addSt [HUA eclass].
 
