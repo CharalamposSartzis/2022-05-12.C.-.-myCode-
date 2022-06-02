@@ -228,14 +228,12 @@ void save(char* filename, list l)  // save the students' list at file.
     if(fd == NULL)
     {
         fprintf(stderr, "\nCouldn't open/create the file %s...\n", filename);
-        // exit (1);
         return;    //**
     }
 
     if(listIsEmpty(l))
     {
         printf("\nThe list to be saved is empty! The file %s has NO data in it.\n", filename);
-            
         return;    //**
     }
      
@@ -243,28 +241,25 @@ void save(char* filename, list l)  // save the students' list at file.
     while(temp!=NULL)
     {
         st = temp->data;
-        printf("\n ** TEST st details: **\n");    // OK
+        /*printf("\n ** TEST st details: **\n");    // OK
         print(st);
-        printf("\n **** \n\n");
+        printf("\n **** \n\n");*/
   
-        fseek(fd, i*sizeof(Student), SEEK_SET);                 //** 
+        fseek(fd, (st.id - 1)*sizeof(Student), SEEK_SET);                 //** 
         f_write = fwrite(&st, sizeof(Student), 1, fd);          //** [!!] &st.  
-               
+
+        if(f_write != 1) 
+        {
+            fprintf(stderr, "Error while writing in the file %s...\n", filename);
+            return;
+        }
+        
         temp = temp->next;
-        ++i;
+        // ++i;
     }
         
-    if(f_write != 0)    //** CHANGE
-    {
-        printf("List saved in the file %s successfully! \n", filename);
-    }
-    else
-    {
-        fprintf(stderr, "Error while writing in the file %s...\n", filename);
-    }
-        
+    printf("List saved in the file %s successfully! \n", filename);
     fclose(fd);
-// } 
 }
 
 
