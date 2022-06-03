@@ -16,18 +16,27 @@
 //[OK] REPLACE create / put args / not malloc?? : -> use Student newSt + a pointer to it (+ at main) [*].
 //[OK] [*](free(student) AFTER addStudent.)
 
+
+
+
 // load and save: ADD CHECKS. -> empty list [+FUNCTION]
 --> CONNECT return load NULL -> save: file created.
---> FIX: student with id=0 -> not exist [findStudent].
 --> REPLACE ALL: [MAXSTRING] -> [MAXSTRING + 1]    
 --> strlen CHECK (>= 2  kai  <= MAXSTRING) at userPrompt - addSt().    [+FUNCTION]
 // PROBLEM: read OK BUT wrong info [fread].
+
 --> add, delete, update RETURN TYPE [int]: (~ checkDelete) CHANGE -> τιμή(-1)/μεταβλητή που επιστρ [HUA eclass].
 --> Show empty list msg -> when choice is 2-5.
+--> FIX: student with id=0 -> not exist [findStudent].
 --> delete, update: first give info, then question if you want to delete/update.
+--> put id: EOF -> back to menu.
+
 // GROUP strcpy / free (update / delete) -> node upd_node_p / del_node_p. 
 --> CLEAN test checks.
 --> [TEST + a\out-HUA]
+
+
+
 
 use rb, wb ??
 

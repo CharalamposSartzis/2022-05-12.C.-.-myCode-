@@ -1,7 +1,8 @@
 
 #include "student.h"    // stdio (for NULL) is included in student.h
 
-int numStudents = 0;    //** CHECK <-- pragma once [DECLARE at student.h].
+int numStudents = 0;                //** CHECK <-- pragma once [DECLARE at student.h].
+size_t st_size = sizeof(Student);    //** DEFINE [??]
 
 
 
@@ -133,20 +134,20 @@ list load(char* filename)  // Retrieve the students' list from the file.
     
     if(fd == NULL)
     {
-        fprintf(stderr, "File %s does NOT exist or could NOT be opened in load! \nΕmpty list is created and returned.\n", filename);
+        fprintf(stderr, "File '%s' does NOT exist or could NOT be opened in load! \nΕmpty list is created and returned.\n", filename);
         return newList;
     }
     
     Student newSt;                // Student struct variable representing the new student that is loaded and added to the list each time.
-    Student* newSt_p = &newSt;    // The pointer that holds the address of the new student.
-    node newStNode;
+    // Student* newSt_p = &newSt;    // The pointer that holds the address of the new student.
+    // node newStNode;
     int addSt = 0;        //**FIX
 
     // int lastID = 0;        //** Holds the id of the last student loaded from the file. +1: is the next available id for the next students added from the user
 
     int i = 0;
     size_t f_read;
-    size_t st_size = sizeof(Student);
+    // size_t st_size = sizeof(Student);
     //bool flag = false;    //**
 
     fseek(fd, 0, SEEK_END);                  //** BE CAREFUL !!
@@ -157,7 +158,7 @@ list load(char* filename)  // Retrieve the students' list from the file.
         //** Create new student node with the data saved at local variables ID and name. Then insert it to the list.
             
         fseek(fd, i*st_size, SEEK_SET);        //** BE CAREFUL !!
-        f_read = fread(newSt_p, st_size, 1, fd);        // newSt_p is a POINTER!! NOT a struct Student...
+        f_read = fread(&newSt, st_size, 1, fd);        // newSt_p is a POINTER!! NOT a struct Student...
             
         /*printf("\n\n** FREAD() TEST st details: \t");
         print(*newSt_p);
@@ -165,45 +166,31 @@ list load(char* filename)  // Retrieve the students' list from the file.
 
         if(f_read != 1)        //** CHECK    //** If fread==0 -> EOF.
         {
-            fprintf(stderr, "\nProblem while loading from the file %s... \n", filename);
-            
-            clearList(newList);
-            if(listIsEmpty(newList))
-            {
-                printf("\nThe list is empty/cleared. \n");        //** FOR TEST.   
-            }
-            //return newList;
-            break;
+            fprintf(stderr, "\nProblem while loading from the file '%s'... \n", filename);
+            exit(1);        //** ERROR exit.
         }
-        if(newSt_p->id < 1)    //++ len.
+        if(newSt.id < 1)    //++ len.
         {
-            fprintf(stderr, "\nThe #%d student's data was NOT read correctly from the file %s... \n", (i+1), filename);
-            
-            clearList(newList);
-            if(listIsEmpty(newList))
-            {
-                printf("\nThe list is empty/cleared. \n");        //** FOR TEST.   
-            }
-            //return newList;
-            break;
+            fprintf(stderr, "\nThe details of #%d student loaded from the file [%s] are incorrect/invalid! \n", (i+1), filename);
+            exit(1);        //** ERROR exit.
         }
             
         printf("\n\n** TEST new st details: \t");
-        print(*newSt_p);
+        print(newSt);
         printf("\n****\n");
 
-        addSt = addStudent(*newSt_p, newList);        //** FIX addStudent().
-        if(addSt<=0)        //**FIX         //** if(addSt)
+        addSt = addStudent(newSt, newList);        //** FIX addStudent().
+        if(addSt < 1)        //**FIX         //** if(addSt)
         {
-            fprintf(stderr, "Problem while adding student with id [%d] to the list...", newSt_p->id);
-            break;
+            fprintf(stderr, "Problem while adding student with id [%d] to the list...", newSt.id);
+            exit(1);        //** ERROR exit.
         }
-        else
+        /*else
         {
             printf("\nStudent with id: [%d] has been loaded and added to the list successfully! \n", addSt);    //** FOR TEST [--]
             // lastID = addSt;
             //** ++
-        }
+        }*/
      
         ++i;    //**
         
@@ -212,13 +199,13 @@ list load(char* filename)  // Retrieve the students' list from the file.
     //++ if nothing wrong
     numStudents=addSt;    //**
 
-    printf("List loaded from the file %s successfully! \n", filename);
+    printf("List loaded from the file '%s' successfully! \n", filename);
     fclose(fd);
 
     if(listIsEmpty(newList))
     {
         //** CHECK at run.
-        printf("\nThe file %s has NO data in it! The students' list is empty.\n", filename);
+        printf("\nThe file '%s' has NO data in it! The students' list is empty.\n", filename);
     }
     
     return newList;    // Return the list filled with the file data. When there's an  it's empty
@@ -232,18 +219,20 @@ void save(char* filename, list l)  // save the students' list at file.
 
     int i = 0;
     size_t f_write;        //**
+    // size_t st_size = sizeof(Student);
     
     FILE* fd = fopen(filename, "w");
     
     if(fd == NULL)
     {
-        fprintf(stderr, "\nCouldn't open/create the file %s...\n", filename);
+        fprintf(stderr, "\nCouldn't open/create the file '%s'...\n", filename);
         return;    //**
     }
 
     if(listIsEmpty(l))
     {
-        printf("\nThe list to be saved is empty! The file %s has NO data in it.\n", filename);
+        fclose(fd);
+        printf("\nThe saved list is empty! The file '%s' has NO data in it.\n", filename);
         return;    //**
     }
      
@@ -255,20 +244,20 @@ void save(char* filename, list l)  // save the students' list at file.
         print(st);
         printf("\n **** \n\n");*/
   
-        fseek(fd, (st.id - 1)*sizeof(Student), SEEK_SET);                 //** 
-        f_write = fwrite(&st, sizeof(Student), 1, fd);          //** [!!] &st.  
+        fseek(fd, i*st_size, SEEK_SET);                 //** 
+        f_write = fwrite(&st, st_size, 1, fd);          //** [!!] &st.  
 
         if(f_write != 1) 
         {
-            fprintf(stderr, "Error while writing the details of #1 student in the file %s...\n", filename);
-            // return;
+            fprintf(stderr, "\nError while writing to the file '%s'...\n", filename);
+            exit(1);        //** ERROR exit.
         }
         
         temp = temp->next;
-        // ++i;
+        ++i;        //**
     }
         
-    printf("List saved in the file %s successfully! \n", filename);
+    printf("List saved in the file '%s' successfully! \n", filename);
     fclose(fd);
 }
 
@@ -289,41 +278,6 @@ bool listIsEmpty(list l)
 {
     //**
     return ((l->head == NULL) && (l->tail == NULL));
-}
-
-void clearList(list l)    //**
-{
-    if(!listIsEmpty(l))        //** We have at least one (1) node in the list.
-    {
-        node clearNode_p;
-        
-        while(l->head != l->tail)       //** Each time: delete from the beginning/head of the list.
-        {
-            clearNode_p = l->head;
-            
-            l->head = l->head->next;        //** Delete from the beginning of the list.
-            l->head->previous = NULL;
-        
-            free(clearNode_p);
-        }
-        
-        // if(clearNode_p == l->tail)     //**[If: l->head == l->tail] If it's the only node of the list.
-        free(l->head);      
-        l->head = NULL;     //** If we only do [l->head = NULL]: OK [l->head == l->tail], if we make 1 null -> the other will be null too.
-        l->tail = NULL;     //**     SAME: l->head = l->tail = NULL;
-        
-        // free(clearNode_p);      //** DOUBLE free() [!!]
-        // checkDelete=1;       //** CHECK-FIX.
-
-        if(listIsEmpty(l))
-        {
-            printf("\nThe list is empty/cleared. \n");        //** FOR TEST.   
-        }
-    }
-    else
-    {
-        printf("\nΤhe list is already empty! \n");
-    }
 }
 
 

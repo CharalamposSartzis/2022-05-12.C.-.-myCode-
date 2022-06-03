@@ -4,7 +4,8 @@
 #include <stdbool.h>
 #include <string.h>
 
-#define MAXSTRING 100 
+#define MAXSTRING 100
+
 //** CHECK USE OF: ifndef-def.
 
 // int numStudents = 0;    //** CHECK <-- pragma once.
