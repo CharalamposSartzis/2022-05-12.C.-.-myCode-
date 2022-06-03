@@ -70,7 +70,7 @@ int main(int argc, char** argv)
                     do
                     {
                         printf("Please give the name of the new student you want to create: ");   
-                        scanf("%s", newSt.name);        
+                        scanf("%s", newSt.name);            // Set as the name of the student the name written by the user.  
 
                         if(!checkLen(newSt.name))
                         {
