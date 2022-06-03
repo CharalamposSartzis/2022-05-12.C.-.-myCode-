@@ -4,12 +4,9 @@
 #include <stdbool.h>
 #include <string.h>
 
-#define MAXSTRING 50
+#define MAXSTRING 75
 #define MINSTRING 2
 
-//** CHECK USE OF: ifndef-def.
-// int numStudents = 0;    //** CHECK <-- pragma once.
-// node stNode;
 
 
 

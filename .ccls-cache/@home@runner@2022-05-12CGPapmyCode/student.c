@@ -7,6 +7,7 @@ size_t st_size = sizeof(Student);        //**
 
 
 
+
 int getNumStudents()        //** FIX with ifdef - nodef [??].
 {
     return ++numStudents;
@@ -64,8 +65,7 @@ int readInput(char* action)
     return searchID;            // The function returns a value when the do-while loop ends. This means that the user entered
 }
 
-//** CHECK bool in LECTURES.
-bool empty_stdin(/*int* choice*/)    // Function to empty stdin and check for the rest of the user input.
+bool empty_stdin()    // Function to empty stdin and check for the rest of the user input.
 {
     int cnt = 0;
     int inputChar;
@@ -99,7 +99,7 @@ bool empty_stdin(/*int* choice*/)    // Function to empty stdin and check for th
     return (cnt==0);        //**
 }
 
-bool checkLen(char* string)
+bool checkLen(char* string)        //** CHECK [!!]
 {
     int s_length = strlen(string);
     return (s_length >= MINSTRING) && (s_length <= MAXSTRING);
@@ -109,23 +109,17 @@ bool checkLen(char* string)
 
 void print(Student st)
 {
-    // printf("\n id: [%d] | name: %s .\n", st.id, st.name);
-    printf("%-5d | %-13s\n", st.id, st.name);    //** CHECK format.
+    printf("\n id: %-5d | name: %-13s \n", st.id, st.name);    //** CHECK format.
 }
 
 void printstudents(list l)
 {
     node traversal_p = l->head;          // Pointer to traverse through the list.
-    printf("--All students' details: \n");
-    // printf("Student with id: %d | name: %s \n", traversal_p->data.id, l->head->data.name);    //** OK
+    printf("\n ---\tAll students' details: \t--- \n");
 
-    printf("%-5s | %-13s\n", "ID", "NAME");    //** CHECK format.
-    
     while(traversal_p != NULL)    //**
     {
-        // Student st = traversal_p->data;
         print(traversal_p->data);            // Print the details of the current student each time.
-        // printf("\n [[ NAME: %s ]]", traversal_p->data.name);
         traversal_p = traversal_p->next;
     }
     printf("\n\n");
@@ -453,7 +447,7 @@ int updateStudent(Student st, list l)  // update the student's details at the li
 
         if(!checkLen(newName))
         {
-            printf("\nYou must enter a student name with length between 2 and 50 characters! Please try again.\n\n"); //**
+            printf("\nYou must enter a student name with length between 2 and 75 characters! Please try again.\n\n"); //**
         }
     }while(!checkLen(newName));    
     

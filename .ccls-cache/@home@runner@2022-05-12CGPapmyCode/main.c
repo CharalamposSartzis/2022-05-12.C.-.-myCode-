@@ -72,7 +72,7 @@ int main(int argc, char** argv)        //** CHANGE args.
 
                         if(!checkLen(newSt.name))
                         {
-                            printf("\nYou must enter a student name with length between 2 and 50 characters! Please try again.\n\n"); //**
+                            printf("\nYou must enter a student name with length between 2 and 75 characters! Please try again.\n\n"); //**
                         }
                     }while(!checkLen(newSt.name));
                     
