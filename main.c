@@ -76,10 +76,12 @@ int main(int argc, char** argv)        //** CHANGE args.
                 case 1:        // Create student.
                 {
                     newSt.id = getNumStudents();    //** FIX with ifdef - nodef [??].
-                    // printf("Please give the name of the new student you want to create: ");    //** ++ CHECK for strlen.
-                    // scanf("%s", newSt.name);        //** CHECK over-write.
-                    read_name = readName(&newSt, "create");
+                    printf("\nstudent id: %d\n", newSt.id);
+                    
+                    //read_name = readName(&newSt, "create");
                     //strcpy(newSt.name, stName);        //**
+                    printf("\nstudent BEFORE add(): \n");
+                    print(newSt);
 
                     //** Also in load().
                     addSt = addStudent(newSt, studentList);        //** The student gets an ID when added to the list. 

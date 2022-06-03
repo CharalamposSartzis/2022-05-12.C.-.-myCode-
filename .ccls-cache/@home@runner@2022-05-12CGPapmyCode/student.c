@@ -138,6 +138,7 @@ int readName(Student* st_p, char* action)
     }while(!validLen);    //** CHECK-CHANGE.
 
     strcpy(st_p->name, stName);
+    print(*st_p);
     return 0;
 }
 
@@ -331,10 +332,11 @@ node createStNode(Student* st_p) //**    // create a new node with the student's
                                                          // student's data (struct nodeR).
     //** COPIES the content of st_p -> to the data of the stNode.
     stNode->data = *st_p;    //** CHECK.
-    // stNode->data.id = st_p->id;    //** CHECK.
-    // strcpy(stNode->data.name, st_p->name);    //** CHECK.
     stNode->next = NULL;
     stNode->previous = NULL;
+
+    printf("\n -- NODE data -- \n")
+    print(stNode->data);
 
     return stNode;    //** <--
 }
