@@ -25,13 +25,12 @@
 //[**CHECK] REPLACE ALL: [MAXSTRING] -> [MAXSTRING + 1]    
 //[OK] Show empty list msg -> when choice is 2-5.
 
-
-
-
-// [**OK] FIX: student with id=0 -> not exist [findStudent].
+// [ΟΚ] delete, update: first give info, then question if you want to delete/update.
+// [OK] FIX: student with id=0 -> not exist [findStudent].
     --> COMMENT: for the CHECKS at addSt() and load().
 
---> delete, update: first give info, then question if you want to delete/update.
+
+
 --> add, delete, update RETURN TYPE [int]: (~ checkDelete) CHANGE -> τιμή(-1)/μεταβλητή που επιστρ [HUA eclass].
 
 --> CLEAN test checks.
