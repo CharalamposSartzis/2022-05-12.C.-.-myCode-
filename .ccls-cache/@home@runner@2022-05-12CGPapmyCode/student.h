@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-#define MAXSTRING 75
+#define MAXSTRING 75         //Maximum 
 #define MINSTRING 2
 
 
