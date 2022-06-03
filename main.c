@@ -27,9 +27,15 @@ int main(int argc, char** argv)        //** CHANGE args.
     int addSt = 0;        // variable to save the return result of addStudent().
     int searchID = 0;     // variable to save the return result of readInput().
     
-    int choice;            // variable to save the user's selection from the menu. 
-    int scanReturn;        // variable to save scanf() return.
-    bool clearInput;       // variable to save empty_stdin() return.
+    int choice;                // variable to save the user's selection from the menu. 
+    int scanReturn;            // variable to save scanf() return.
+    bool clearInput;           // variable to save empty_stdin() return.
+    
+    char upd_del_choice[10];
+    int str_cmp_Y;
+    int str_cmp_N;
+    bool isYes;
+    bool isNo;
     
     while(1 /*true*/)        //**
     {  
@@ -151,8 +157,30 @@ int main(int argc, char** argv)        //** CHANGE args.
                     st_p = findStudent(searchID, studentList);
                     if(st_p != NULL)
                     {
-                        printf(" Student's details: ");
+                        printf("\n Student's details: ");
                         print(*st_p);        //++
+
+                        do
+                        {
+                            printf("\n Do you want to update the student with id [%d]? (Yes/No): ", st_p->id);
+                            scanf("%s", upd_del_choice);
+
+                            str_cmp_Y = strcmp(upd_del_choice, "Yes");
+                            str_cmp_N = strcmp(upd_del_choice, "No");
+
+                            isYes = (str_cmp_Y == 0);
+                            isNo = (str_cmp_N == 0);
+                            
+                            if( !(isYes || isNo) )        //**
+                            {
+                                printf("\n Please give a valid answer. \n");
+                            }
+                        }while( !(isYes || isNo) );
+
+                        if(isNo)        //**
+                        {
+                            break;
+                        }
                         
                         addSt = updateStudent(*st_p, studentList);
                         if(addSt>0)        //** if(addSt)
@@ -162,14 +190,12 @@ int main(int argc, char** argv)        //** CHANGE args.
                         }
                         else
                         {
-                            printf("\n Student with id: [%d] has NOT been updated...", st_p->id);
-                            // free(newSt_p);        //** ++ do-while
-                            //** ++
+                            printf("\n Student with id: [%d] has NOT been updated...", addSt);
                         }
                     }
                     else
                     {
-                        printf("\nStudent with id: [%d] doesn't exist in the list!", searchID);    //**
+                        printf("\n Student with id: [%d] doesn't exist in the list!", searchID);    //**
                     }
                     
                     break;
@@ -192,22 +218,39 @@ int main(int argc, char** argv)        //** CHANGE args.
                     st_p = findStudent(searchID, studentList);
                     if(st_p != NULL)
                     {
-                        printf(" Student's details: ");
+                        printf("\n Student's details: ");
                         print(*st_p);        //++
 
-                        //++ Do you want to delete him ??
+                        do
+                        {
+                            printf("\n Do you want to delete the student with id [%d]? (Yes/No): ", st_p->id);
+                            scanf("%s", upd_del_choice);
+
+                            str_cmp_Y = strcmp(upd_del_choice, "Yes");
+                            str_cmp_N = strcmp(upd_del_choice, "No");
+
+                            isYes = (str_cmp_Y == 0);
+                            isNo = (str_cmp_N == 0);
+                            
+                            if( !(isYes || isNo) )        //**
+                            {
+                                printf("\n Please give a valid answer. \n");
+                            }
+                        }while( !(isYes || isNo) );
+
+                        if(isNo)        //**
+                        {
+                            break;      // Breaks out of switch-case.
+                        }
                         
                         addSt = deleteStudent(*st_p, studentList);
                         if(addSt>0)        //** if(addSt)
                         {
                             printf("\n The student with id: [%d] has been deleted successfully!", addSt);
-                            //++ MORE CHECKS.
                         }
                         else
                         {
-                            printf("\n Student with id: [%d] has NOT been deleted...", st_p->id);
-                            // free(newSt_p);        //** ++ do-while
-                            //** ++
+                            printf("\n Student with id: [%d] has NOT been deleted...", addSt);
                         }
                     }
                     else
