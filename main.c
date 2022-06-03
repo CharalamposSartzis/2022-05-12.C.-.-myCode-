@@ -16,7 +16,7 @@ int main(int argc, char** argv)        //** CHANGE args.
     if(argLen < 2)        //** ++ CHECK for MAXSTRING/MAXLEN.
     {
         fprintf(stderr, "\nYou must enter a file name with a minimum length of 2! Try to compile again.\n\n");
-        exit(1);
+        exit(1);        // ERROR exit.
     }
     char* filename = argv[1];
     
@@ -94,11 +94,16 @@ int main(int argc, char** argv)        //** CHANGE args.
                 } //case1-end.
                 case 2:        // Find student.
                 {
+                    if(listIsEmpty(studentList))
+                    {
+                        printf("\nThe students' list is empty! There isn't any student to search for...\n");
+                        break;
+                    }
+                    
                     searchID = readInput("search for");
-
                     if(searchID == 0)        //** CHECK at run-time.
                     {
-                        // printf("User canceled student search...");
+                        //** printf("User canceled student search...");
                         break;        //** Breaks switch-case.
                     }
                         
@@ -119,11 +124,23 @@ int main(int argc, char** argv)        //** CHANGE args.
                 }
                 case 3:        // Print list of students.
                 {
+                    if(listIsEmpty(studentList))
+                    {
+                        printf("\nThe students' list is empty! There are NO students, so we can't display their details...\n");
+                        break;
+                    }
+                    
                     printstudents(studentList);
                     break;
                 }
                 case 4:        // Update student.
                 {
+                    if(listIsEmpty(studentList))
+                    {
+                        printf("\nThe students' list is empty! There isn't any student to update...\n");
+                        break;
+                    }
+                    
                     searchID = readInput("update");
 
                     if(searchID == 0)        //** CHECK at run-time.
@@ -160,7 +177,11 @@ int main(int argc, char** argv)        //** CHANGE args.
                 }
                 case 5:        // Delete student.
                 {
-                    // //student {st.id, name=""};
+                    if(listIsEmpty(studentList))
+                    {
+                        printf("\nThe students' list is empty! There isn't any student to delete...\n");
+                        break;
+                    }
                         
                     searchID = readInput("delete");
 
@@ -204,9 +225,7 @@ int main(int argc, char** argv)        //** CHANGE args.
 
                     save(filename, studentList);        //**
                     
-                    // return 1;        //** [??]
-                    exit(0);            //**
-                    // return 1;        //** [??]
+                    exit(0);            // Normal exit.
                 }
                 default:
                 {
@@ -216,5 +235,5 @@ int main(int argc, char** argv)        //** CHANGE args.
         } //else: clear input.
     } //while
     
-    return 0;        //** [??]
+    return 0;        // Normal main return/end.
 }

@@ -20,14 +20,15 @@
 //[OK] PROBLEM: read OK BUT wrong info [fread].
 // GROUP strcpy / free (update / delete) -> node upd_node_p / del_node_p. 
 
+// [~OK] strlen CHECK (>= 2  kai  <= MAXSTRING) at userPrompt - addSt().    [+FUNCTION]
+
+// [CHECK] REPLACE ALL: [MAXSTRING] -> [MAXSTRING + 1]    
+//[OK] Show empty list msg -> when choice is 2-5.
 
 
 
---> REPLACE ALL: [MAXSTRING] -> [MAXSTRING + 1]    
---> strlen CHECK (>= 2  kai  <= MAXSTRING) at userPrompt - addSt().    [+FUNCTION]
 
 --> add, delete, update RETURN TYPE [int]: (~ checkDelete) CHANGE -> τιμή(-1)/μεταβλητή που επιστρ [HUA eclass].
---> Show empty list msg -> when choice is 2-5.
 --> FIX: student with id=0 -> not exist [findStudent].
 --> delete, update: first give info, then question if you want to delete/update.
 --> put id: EOF -> back to menu.
