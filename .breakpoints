@@ -2,54 +2,18 @@
   "files": {
     "main.c": [
       {
-        "id": "ae204ea9-b5ed-45ef-bb4a-788ed37899cd",
-        "line": 84,
-        "version": 10338,
-        "index": 3303
-      },
-      {
-        "id": "3d625cb4-10c4-464a-87b9-68f4cad59239",
-        "line": 88,
-        "version": 10321,
-        "index": 3487
-      },
-      {
-        "id": "d28e94e0-7ecf-4da7-bfc9-e0f59fb3aa39",
-        "line": 115,
-        "version": 10321,
-        "index": 4733
-      },
-      {
-        "id": "bdebc371-8fec-4566-ab77-5a49a88686ec",
-        "line": 151,
-        "version": 10321,
-        "index": 6232
+        "id": "e18e5ca9-eea9-47f6-88d5-d2170e38f878",
+        "line": 91,
+        "version": 10582,
+        "index": 3627
       }
     ],
     "student.c": [
       {
         "id": "347c7b69-5e3d-42a5-99a9-c5ace816961c",
         "line": 29,
-        "version": 17102,
+        "version": 17177,
         "index": 745
-      },
-      {
-        "id": "debf6a3c-a991-46d0-af81-fcf644888181",
-        "line": 108,
-        "version": 17102,
-        "index": 3072
-      },
-      {
-        "id": "30420465-a263-46c9-b74f-66bfe303239b",
-        "line": 360,
-        "version": 17102,
-        "index": 11040
-      },
-      {
-        "id": "491f3e73-7e32-4c69-95fd-080399f925a4",
-        "line": 486,
-        "version": 17102,
-        "index": 15180
       }
     ]
   }

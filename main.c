@@ -12,20 +12,18 @@ int main(int argc, char** argv)        //** CHANGE args.
         fprintf(stderr, "\nYou must enter a file name as a command line argument! Try to compile again.\n\n");
         exit(1);
     }
-    char* filename = argv[1];
-    if(!checkLen(filename))        //** ++ CHECK for MAXSTRING/MAXLEN.
+    int argLen = strlen(argv[1]);
+    if(argLen < 2)        //** ++ CHECK for MAXSTRING/MAXLEN.
     {
-        fprintf(stderr, "\nYou must enter a file name within a minimum length of 2 and a maximum of 50! Try to compile again.\n\n");
+        fprintf(stderr, "\nYou must enter a file name with a minimum length of 2! Try to compile again.\n\n");
         exit(1);
     }
+    char* filename = argv[1];
     
-    // createList();          //** LOOK at head and tail values: if NULL.
     list studentList = load(filename);
     
-    //  char newStName[MAXSTRING + 1];        //** FIX
     Student newSt;        // Student struct variable representing the new student that is added to the list each time.
     Student* st_p;        // The pointer that holds the address of the student we want to find each time (in order to: print details, update or delete).
-    // char stName[MAXSTRING + 1];
     int addSt = 0;        // variable to save the return result of addStudent().
     int searchID = 0;     // variable to save the return result of readInput().
     
@@ -41,7 +39,6 @@ int main(int argc, char** argv)        //** CHANGE args.
     int choice;            // variable to save the user's selection from the menu. 
     int scanReturn;        // variable to save scanf() return.
     bool clearInput;       // variable to save empty_stdin() return.
-    int read_name;
     
     while(1 /*true*/)        //**
     {  
@@ -75,14 +72,19 @@ int main(int argc, char** argv)        //** CHANGE args.
             {
                 case 1:        // Create student.
                 {
-                    newSt.id = getNumStudents();    //** FIX with ifdef - nodef [??].
-                    printf("\nstudent id: %d\n", newSt.id);
-                    
-                    //read_name = readName(&newSt, "create");
-                    //strcpy(newSt.name, stName);        //**
-                    printf("\nstudent BEFORE add(): \n");
-                    print(newSt);
+                    newSt.id = getNumStudents();    // Get id: last available id + 1. The current total number of students added 
+                                                    // from the beginning of the program is increased by 1.
+                    do
+                    {
+                        printf("Please give the name of the new student you want to create: ");    //**
+                        scanf("%s", newSt.name);        
 
+                        if(!checkLen(newSt.name))
+                        {
+                            printf("\nYou must enter a student name with length between 2 and 50 characters! Please try again.\n\n"); //**
+                        }
+                    }while(!checkLen(newSt.name));
+                    
                     //** Also in load().
                     addSt = addStudent(newSt, studentList);        //** The student gets an ID when added to the list. 
                     if(addSt>0)        //** if(addSt)
@@ -96,11 +98,9 @@ int main(int argc, char** argv)        //** CHANGE args.
                         //** free(newSt_p);        //** ++ do-while
                         //** ++
                     }
-                    print(newSt);
-                    // free(newSt_p);        //** NOT NEEDED: NO stud malloc creation.
                     
                     break;
-                }
+                } //case1-end.
                 case 2:        // Find student.
                 {
                     searchID = readInput("search for");

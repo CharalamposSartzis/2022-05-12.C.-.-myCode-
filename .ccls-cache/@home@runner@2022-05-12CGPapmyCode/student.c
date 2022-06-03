@@ -1,8 +1,8 @@
 
 #include "student.h"    // stdio (for NULL) is included in student.h
 
-int numStudents = 0;                //** CHECK <-- pragma once [DECLARE at student.h].
-size_t st_size = sizeof(Student);    //** DEFINE [??]
+int numStudents = 0;                    //**
+size_t st_size = sizeof(Student);        //**
 
 
 
@@ -101,45 +101,8 @@ bool empty_stdin(/*int* choice*/)    // Function to empty stdin and check for th
 
 bool checkLen(char* string)
 {
-    int len = strlen(string);
-    return (strlen(string) >= MINSTRING) && (len <= MAXSTRING);
-}
-
-int readName(Student* st_p, char* action)
-{
-    char stName[MAXSTRING + 1];    //**
-    int scanReturn;
-    bool scan_EOF;
-    bool validLen;
-    
-    do
-    {
-        //** CANNOT change id: unique given by the program.
-        printf("Please give the name of the student you want to %s: ", action);    //** action: create, update.
-        scanReturn = scanf("%s", stName);        //** CHECK over-write.
-
-        int len = strlen(stName);
-        printf("\nSt name: %s\n", stName);
-        printf("\nSt length: %d\n", len);
-        
-        scan_EOF = (scanReturn == EOF);
-        validLen = checkLen(stName);        //**
-
-        if(scan_EOF)                // If the user cancels the input.
-        {
-            printf("\nUser canceled action... \n");
-            return -1;        //** [!!]
-            // break;
-        }
-        if(!validLen)    //** CHECK-CHANGE.
-        {
-            printf("\nYou must enter a student name within a minimum length of 2 and a maximum of 50! Try again.\n\n"); //**
-        }                
-    }while(!validLen);    //** CHECK-CHANGE.
-
-    strcpy(st_p->name, stName);
-    print(*st_p);
-    return 0;
+    int s_length = strlen(string);
+    return (s_length >= MINSTRING) && (s_length <= MAXSTRING);
 }
 
 
@@ -335,9 +298,6 @@ node createStNode(Student* st_p) //**    // create a new node with the student's
     stNode->next = NULL;
     stNode->previous = NULL;
 
-    printf("\n -- NODE data -- \n")
-    print(stNode->data);
-
     return stNode;    //** <--
 }
 
@@ -376,15 +336,6 @@ int addStudent(Student st, list l)      //** CHECK return type [LECTURES]. Add n
 
 Student* findStudent(int id, list l)  //** search for the student at the list, based on id.
 {
-    // // If student does not exist.
-    // if(strlen(st.name)==0)    //** CHECK for the length at user input.
-    // {
-    //     printf("Student does not exist...");
-    //     return 0;
-    // }
-
-    // Student* st_p = NULL;    //** CHECK.
-
     //**
     if(listIsEmpty(l))
     {
@@ -412,15 +363,11 @@ Student* findStudent(int id, list l)  //** search for the student at the list, b
         if(traversal_p->data.id == id)
         {
             return &(traversal_p->data);    // return the address of the student.    //** CHECK.
-            // st_p = &traversal_p->data;
-            // break; 
-            // stNode = traversal_p;
         }
         traversal_p = traversal_p->next;    // O(n) [ O(n/2) ].
     }
 
     return NULL;    //** [??]    // If student not found.
-    // return st_p;
 }
 
 int deleteStudent(Student st, list l)  // delete the student from the list, based on st.id.
@@ -497,7 +444,18 @@ int updateStudent(Student st, list l)  // update the student's details at the li
     // int checkUpdate=0;        //** CHECK-DELETE IT.
     node updNode_p;                 // Pointer that holds the address of the node that its data (student) is going to be updated.
     char newName[MAXSTRING + 1];    //**
-    int read_name = readName(&st, "update");
+
+    do
+    {
+        // CANNOT change student's unique id (given by the application).
+        printf("Write the new name of the student with id = %d: ", st_id);
+        scanf("%s", newName);    //** ++ LEN CHECK.        
+
+        if(!checkLen(newName))
+        {
+            printf("\nYou must enter a student name with length between 2 and 50 characters! Please try again.\n\n"); //**
+        }
+    }while(!checkLen(newName));    
     
     if(l->head->data.id == st_id)    // Update the student at the beginning of the list.
     {
