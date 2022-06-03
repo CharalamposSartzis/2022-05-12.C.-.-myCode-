@@ -29,8 +29,8 @@
 
 
 --> FIX: student with id=0 -> not exist [findStudent].
---> add, delete, update RETURN TYPE [int]: (~ checkDelete) CHANGE -> τιμή(-1)/μεταβλητή που επιστρ [HUA eclass].
 --> delete, update: first give info, then question if you want to delete/update.
+--> add, delete, update RETURN TYPE [int]: (~ checkDelete) CHANGE -> τιμή(-1)/μεταβλητή που επιστρ [HUA eclass].
 
 --> CLEAN test checks.
 --> [TEST + a\out-HUA]
@@ -39,17 +39,22 @@
 
 
 
-put id: EOF -> back to menu.
-
 CONNECT return load NULL -> save: file created.
 
-use rb, wb ??
+CHANGE only node condition.
 
 EOF, NULL and EMPTY checks | add \n.
 
-createStudent [not malloc(var at the begin of main)].
+put id: EOF -> back to menu.
+
+use rb, wb ??
+
+//createStudent [not malloc(var at the begin of main)].
 
 if def - no def, pragma once [HUA eclass].
+
+
+
 
 **
 Μπορείτε να χρησιμοποιήσετε κώδικα που βρήκατε στο internet ή βιβλία με τις εξής προϋποθέσεις (μη τήρηση των προϋποθέσεων σημαίνει κακόβουλη συμπεριφορά και θα αξιολογείται σαν αντιγραφή):

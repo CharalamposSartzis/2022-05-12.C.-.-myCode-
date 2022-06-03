@@ -1,7 +1,7 @@
 
-//#include <stdio.h>      // stdio (for NULL) is included in student.h
 #include "student.h"
-//#include <string.h>
+
+
 
 
 
@@ -10,12 +10,12 @@ int main(int argc, char** argv)        //** CHANGE args.
     if(argc < 2)
     {
         fprintf(stderr, "\nYou must enter a file name as a command line argument! Try to compile again.\n\n");
-        exit(1);
+        exit(1);        // ERROR exit.
     }
-    int argLen = strlen(argv[1]);
-    if(argLen < 2)        //** ++ CHECK for MAXSTRING/MAXLEN.
+    // int argLen = strlen(argv[1]);
+    if(!checkLen(argv[1]))        //**
     {
-        fprintf(stderr, "\nYou must enter a file name with a minimum length of 2! Try to compile again.\n\n");
+        fprintf(stderr, "\nYou must enter a file name with a minimum length of 2 and a maximum length of 75 characters! Try to compile again.\n\n");
         exit(1);        // ERROR exit.
     }
     char* filename = argv[1];
@@ -101,9 +101,9 @@ int main(int argc, char** argv)        //** CHANGE args.
                     }
                     
                     searchID = readInput("search for");
-                    if(searchID == 0)        //** CHECK at run-time.
+                    if(searchID < 1)        //** CHECK at run-time.
                     {
-                        //** printf("User canceled student search...");
+                        printf("There is NO student with id <= 0...");
                         break;        //** Breaks switch-case.
                     }
                         
@@ -142,10 +142,9 @@ int main(int argc, char** argv)        //** CHANGE args.
                     }
                     
                     searchID = readInput("update");
-
-                    if(searchID == 0)        //** CHECK at run-time.
+                    if(searchID < 1)        //** CHECK at run-time.
                     {
-                        // printf("User canceled student's update...");
+                        printf("There is NO student with id <= 0...");
                         break;        //** Breaks switch-case.
                     }
                     
@@ -184,10 +183,9 @@ int main(int argc, char** argv)        //** CHANGE args.
                     }
                         
                     searchID = readInput("delete");
-
-                    if(searchID == 0)        //** CHECK at run-time.
+                    if(searchID < 1)        //** CHECK at run-time.
                     {
-                        // printf("User canceled student's delete...");
+                        printf("There is NO student with id <= 0...");
                         break;        //** Breaks switch-case.
                     }
                     

@@ -170,9 +170,9 @@ list load(char* filename)  // Retrieve the students' list from the file.
             fprintf(stderr, "\nProblem while loading from the file '%s'... \n", filename);
             exit(1);        //** ERROR exit.
         }
-        if(newSt.id < 1)    //++ len.
+        if(newSt.id < 1)    // Student(s) with id<1 would NOT be added to the list!
         {
-            fprintf(stderr, "\nThe details of #%d student loaded from the file [%s] are incorrect/invalid! \n", (i+1), filename);
+            fprintf(stderr, "\nIncorrect/invalid student data loaded from the file '%s': id [%d] of student #%d ! \n", filename, (i+1), newSt.id);
             exit(1);        //** ERROR exit.
         }
             
@@ -195,7 +195,7 @@ list load(char* filename)  // Retrieve the students' list from the file.
      
         ++i;    //**
         
-    } //while_end
+    } //while-end
     
     //++ if nothing wrong
     numStudents=addSt;    //**
@@ -274,11 +274,9 @@ list createList()
     return newList;
 }
 
-//**[CHECK lectures] Do it with int (true=1+ OR (<= -1), false=0).
-bool listIsEmpty(list l)
+bool listIsEmpty(list l)        //**
 {
-    //**
-    return ((l->head == NULL) && (l->tail == NULL));
+    return ((l->head == NULL) && (l->tail == NULL));    //**
 }
 
 
@@ -382,7 +380,6 @@ int deleteStudent(Student st, list l)  // delete the student from the list, base
             l->head = NULL;        //**
             l->tail = NULL;
         
-            // free(delNode_p);      //** CHECK for totally FREE !!
             // checkDelete=1;        //** CHECK-FIX.
         }
         else
@@ -390,7 +387,6 @@ int deleteStudent(Student st, list l)  // delete the student from the list, base
             l->head = l->head->next;        //** Delete from the beginning of the list.
             l->head->previous = NULL;
 
-            // free(delNode_p);
             // checkDelete=1;
         }
     }
@@ -401,7 +397,6 @@ int deleteStudent(Student st, list l)  // delete the student from the list, base
         l->tail = l->tail->previous;
         l->tail->next = NULL;
         
-        // free(delNode_p);
         // checkDelete=1;
     }
     else    // Delete from a specific position inside the list.
@@ -415,7 +410,6 @@ int deleteStudent(Student st, list l)  // delete the student from the list, base
         delNode_p->previous->next = delNode_p->next;
         delNode_p->next->previous = delNode_p->previous;
         
-        // free(delNode_p);
         // checkDelete=1;
     }
 
@@ -454,13 +448,11 @@ int updateStudent(Student st, list l)  // update the student's details at the li
     if(l->head->data.id == st_id)    // Update the student at the beginning of the list.
     {
         updNode_p = l->head;
-        // strcpy(l->head->data.name, newName);
         // checkUpdate=1;
     }
     else if(l->tail->data.id == st_id)    // Update the student at the end of the list.
     {
         updNode_p = l->tail;
-        // strcpy(l->tail->data.name, newName);
         // checkUpdate=1;
     }
     else    // Update the student at a specific position inside the list.
@@ -471,7 +463,6 @@ int updateStudent(Student st, list l)  // update the student's details at the li
             updNode_p = updNode_p->next;
         }
 
-        // strcpy(updNode_p->data.name, newName);
         // checkUpdate=1;
     }
 
