@@ -105,9 +105,9 @@ bool checkLen(char* string)
     return (strlen(string) >= MINSTRING) && (len <= MAXSTRING);
 }
 
-char* readName(char* action)
+int readName(Student* st_p, char* action)
 {
-    char* stName;    //**
+    char stName[MAXSTRING + 1];    //**
     int scanReturn;
     bool scan_EOF;
     bool validLen;
@@ -117,14 +117,18 @@ char* readName(char* action)
         //** CANNOT change id: unique given by the program.
         printf("Please give the name of the student you want to %s: ", action);    //** action: create, update.
         scanReturn = scanf("%s", stName);        //** CHECK over-write.
-                
+
+        int len = strlen(stName);
+        printf("\nSt name: %s\n", stName);
+        printf("\nSt length: %d\n", len);
+        
         scan_EOF = (scanReturn == EOF);
         validLen = checkLen(stName);        //**
 
         if(scan_EOF)                // If the user cancels the input.
         {
             printf("\nUser canceled action... \n");
-            return "EOF";        //** [!!]
+            return -1;        //** [!!]
             // break;
         }
         if(!validLen)    //** CHECK-CHANGE.
@@ -133,7 +137,8 @@ char* readName(char* action)
         }                
     }while(!validLen);    //** CHECK-CHANGE.
 
-    return stName;
+    strcpy(st_p->name, stName);
+    return 0;
 }
 
 
@@ -489,8 +494,8 @@ int updateStudent(Student st, list l)  // update the student's details at the li
     int st_id = st.id;     
     // int checkUpdate=0;        //** CHECK-DELETE IT.
     node updNode_p;                 // Pointer that holds the address of the node that its data (student) is going to be updated.
-    // char newName[MAXSTRING + 1];    //**
-    char* newName = readName("update");
+    char newName[MAXSTRING + 1];    //**
+    int read_name = readName(&st, "update");
     
     if(l->head->data.id == st_id)    // Update the student at the beginning of the list.
     {

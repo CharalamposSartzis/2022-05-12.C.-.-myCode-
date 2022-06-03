@@ -39,8 +39,8 @@ struct listR
 };
 
 
-int readInput(char* action);            //**
-char* readName(char* action);
+int readInput(char* action);                    //**
+int readName(Student* st_p, char* action);
 bool empty_stdin();
 int getNumStudents();
 bool checkLen(char* string);
