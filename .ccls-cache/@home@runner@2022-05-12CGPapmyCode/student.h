@@ -4,18 +4,19 @@
 #include <stdbool.h>
 #include <string.h>
 
-#define MAXSTRING 100
+#define MAXSTRING 50
+#define MINSTRING 2
 
 //** CHECK USE OF: ifndef-def.
-
 // int numStudents = 0;    //** CHECK <-- pragma once.
 // node stNode;
 
 
 
+
 typedef struct    //** Student
 {
-    char name[MAXSTRING + 1];      //** (++ check for input length) CHECK [+1]->'\0' end. name value: the address of the char array (address of the 1st element).
+    char name[MAXSTRING + 1];      //**CHECK for input length. [+1]->'\0' end. name value: the address of the char array (of the 1st element).
     int id;
 }Student;
 
@@ -54,7 +55,5 @@ int updateStudent(Student st, list l);      // update the student's details at t
 
 list createList();                        //**
 bool listIsEmpty(list l);                 //**
-void clearList(list l);                   //**
 node createStNode(/*Student st*/);        // create a new node with the student's data.
 void insert(node stNode, list l);         // Insert a new student node at the end (tail) of the list.
-Student* createStudent();       // Sets the data of the student at a node.

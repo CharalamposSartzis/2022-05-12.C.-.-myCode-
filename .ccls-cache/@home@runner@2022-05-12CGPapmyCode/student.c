@@ -6,6 +6,7 @@ size_t st_size = sizeof(Student);    //** DEFINE [??]
 
 
 
+
 int getNumStudents()        //** FIX with ifdef - nodef [??].
 {
     return ++numStudents;
