@@ -27,15 +27,6 @@ int main(int argc, char** argv)        //** CHANGE args.
     int addSt = 0;        // variable to save the return result of addStudent().
     int searchID = 0;     // variable to save the return result of readInput().
     
-    /*// if(choice)   ==  if(choice NOT zero)
-    // {
-    //     printf("true");
-    // }
-    // else
-    // {
-    //     printf("false");
-    // }*/
-
     int choice;            // variable to save the user's selection from the menu. 
     int scanReturn;        // variable to save scanf() return.
     bool clearInput;       // variable to save empty_stdin() return.
