@@ -82,7 +82,7 @@ bool empty_stdin(/*int* choice*/)    // Function to empty stdin and check for th
         notENTER = (inputChar!='\n');
         notEOF = (inputChar!=EOF);
         
-        printf("-- BEFORE count. --\n");
+        printf("\n-- BEFORE count. --\n");
         //printf("| char: %c |\n", inputChar);
         
         if(notSPACE && notTAB && notENTER && notEOF)   // (*) exclude SPACE and ENTER here [OK].
@@ -93,7 +93,7 @@ bool empty_stdin(/*int* choice*/)    // Function to empty stdin and check for th
         
     }while(notENTER && notEOF);        //**
     
-    printf("\ncount: %d", cnt);
+    printf("\ncount: %d \n", cnt);
     return (cnt==0);        //**
 }
 
@@ -165,22 +165,32 @@ list load(char* filename)  // Retrieve the students' list from the file.
 
         if(f_read != 1)        //** CHECK    //** If fread==0 -> EOF.
         {
-            clearList(newList);
-            fprintf(stderr, "Problem while loading from the file %s... \nReturn an empty/cleared list.", filename);
+            fprintf(stderr, "\nProblem while loading from the file %s... \n", filename);
             
-            return newList;
+            clearList(newList);
+            if(listIsEmpty(newList))
+            {
+                printf("\nThe list is empty/cleared. \n");        //** FOR TEST.   
+            }
+            //return newList;
+            break;
         }
         if(newSt_p->id < 1)    //++ len.
         {
-            clearList(newList);
-            fprintf(stderr, "The #%d student's data was NOT read correctly from the file %s... \nReturn an empty/cleared list.", (i+1), filename);
+            fprintf(stderr, "\nThe #%d student's data was NOT read correctly from the file %s... \n", (i+1), filename);
             
-            return newList;
+            clearList(newList);
+            if(listIsEmpty(newList))
+            {
+                printf("\nThe list is empty/cleared. \n");        //** FOR TEST.   
+            }
+            //return newList;
+            break;
         }
             
-        /*printf("\n\n** TEST new st details: \t");
+        printf("\n\n** TEST new st details: \t");
         print(*newSt_p);
-        printf("\n****\n");*/
+        printf("\n****\n");
 
         addSt = addStudent(*newSt_p, newList);        //** FIX addStudent().
         if(addSt<=0)        //**FIX         //** if(addSt)
@@ -250,8 +260,8 @@ void save(char* filename, list l)  // save the students' list at file.
 
         if(f_write != 1) 
         {
-            fprintf(stderr, "Error while writing in the file %s...\n", filename);
-            return;
+            fprintf(stderr, "Error while writing the details of #1 student in the file %s...\n", filename);
+            // return;
         }
         
         temp = temp->next;
@@ -298,13 +308,17 @@ void clearList(list l)    //**
         }
         
         // if(clearNode_p == l->tail)     //**[If: l->head == l->tail] If it's the only node of the list.
+        free(l->head);      
         l->head = NULL;     //** If we only do [l->head = NULL]: OK [l->head == l->tail], if we make 1 null -> the other will be null too.
         l->tail = NULL;     //**     SAME: l->head = l->tail = NULL;
         
-        free(clearNode_p);      //** CHECK for totally FREE !!
+        // free(clearNode_p);      //** DOUBLE free() [!!]
         // checkDelete=1;       //** CHECK-FIX.
-        
-        printf("\nΤhe list has been cleared... \n");        //** FOR TEST.
+
+        if(listIsEmpty(l))
+        {
+            printf("\nThe list is empty/cleared. \n");        //** FOR TEST.   
+        }
     }
     else
     {
@@ -423,7 +437,7 @@ int deleteStudent(Student st, list l)  // delete the student from the list, base
 
     if(delNode_p->data.id == st_id)    //** 
     {
-        if((delNode_p->next == NULL) && (delNode_p->previous == NULL))     //**[OR l->head == l->tail (==temp)] If it's the only node of the list.
+        if((delNode_p->next == NULL) && (delNode_p->previous == NULL))  //**[OR l->head == l->tail (==temp)] If it's the only node of the list.
         {
             l->head = NULL;        //**
             l->tail = NULL;
@@ -431,12 +445,14 @@ int deleteStudent(Student st, list l)  // delete the student from the list, base
             // free(delNode_p);      //** CHECK for totally FREE !!
             // checkDelete=1;        //** CHECK-FIX.
         }
-        
-        l->head = l->head->next;        //** Delete from the beginning of the list.
-        l->head->previous = NULL;
-        
-        // free(delNode_p);
-        // checkDelete=1;
+        else
+        {
+            l->head = l->head->next;        //** Delete from the beginning of the list.
+            l->head->previous = NULL;
+
+            // free(delNode_p);
+            // checkDelete=1;
+        }
     }
     else if(l->tail->data.id == st_id)    // Delete from the end of the list.
     {
