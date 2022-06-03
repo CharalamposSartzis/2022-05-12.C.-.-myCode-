@@ -12,13 +12,12 @@ int main(int argc, char** argv)        //** CHANGE args.
         fprintf(stderr, "\nYou must enter a file name as a command line argument! Try to compile again.\n\n");
         exit(1);
     }
-    int argLen = strlen(argv[1]);
-    if(argLen < 2)        //** ++ CHECK for MAXSTRING/MAXLEN.
+    char* filename = argv[1];
+    if(!checkLen(filename))        //** ++ CHECK for MAXSTRING/MAXLEN.
     {
-        fprintf(stderr, "\nYou must enter a file name with a minimum length of 2! Try to compile again.\n\n");
+        fprintf(stderr, "\nYou must enter a file name within a minimum length of 2 and a maximum of 50! Try to compile again.\n\n");
         exit(1);
     }
-    char* filename = argv[1];
     
     // createList();          //** LOOK at head and tail values: if NULL.
     list studentList = load(filename);
@@ -26,6 +25,7 @@ int main(int argc, char** argv)        //** CHANGE args.
     //  char newStName[MAXSTRING + 1];        //** FIX
     Student newSt;        // Student struct variable representing the new student that is added to the list each time.
     Student* st_p;        // The pointer that holds the address of the student we want to find each time (in order to: print details, update or delete).
+    char* stName;
     int addSt = 0;        // variable to save the return result of addStudent().
     int searchID = 0;     // variable to save the return result of readInput().
     
@@ -75,8 +75,10 @@ int main(int argc, char** argv)        //** CHANGE args.
                 case 1:        // Create student.
                 {
                     newSt.id = getNumStudents();    //** FIX with ifdef - nodef [??].
-                    printf("Please give the name of the new student you want to create: ");    //** ++ CHECK for strlen.
-                    scanf("%s", newSt.name);        //** CHECK over-write.
+                    // printf("Please give the name of the new student you want to create: ");    //** ++ CHECK for strlen.
+                    // scanf("%s", newSt.name);        //** CHECK over-write.
+                    stName = readName("create");
+                    strcpy(newSt.name, stName);        //**
 
                     //** Also in load().
                     addSt = addStudent(newSt, studentList);        //** The student gets an ID when added to the list. 

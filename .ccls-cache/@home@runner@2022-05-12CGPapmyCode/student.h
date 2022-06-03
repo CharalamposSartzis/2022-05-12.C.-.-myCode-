@@ -40,8 +40,10 @@ struct listR
 
 
 int readInput(char* action);            //**
+char* readName(char* action);
 bool empty_stdin();
 int getNumStudents();
+bool checkLen(char* string);
 
 void printMenu();
 void print(Student st);

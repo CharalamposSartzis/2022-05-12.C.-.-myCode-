@@ -23,17 +23,18 @@
 
 
 
---> REPLACE ALL: [MAXSTRING] -> [MAXSTRING + 1]    
---> strlen CHECK (>= 2  kai  <= MAXSTRING) at userPrompt - addSt().    [+FUNCTION]
+// REPLACE ALL: [MAXSTRING] -> [MAXSTRING + 1]    
+// [+FUNCTION]: strlen CHECK (>= 2  kai  <= MAXSTRING) at userPrompt - addSt().    
 
---> add, delete, update RETURN TYPE [int]: (~ checkDelete) CHANGE -> τιμή(-1)/μεταβλητή που επιστρ [HUA eclass].
 --> Show empty list msg -> when choice is 2-5.
+--> add, delete, update RETURN TYPE [int]: (~ checkDelete) CHANGE -> τιμή(-1)/μεταβλητή που επιστρ [HUA eclass].
 --> FIX: student with id=0 -> not exist [findStudent].
 --> delete, update: first give info, then question if you want to delete/update.
---> put id: EOF -> back to menu.
+--> put id for search etc: if EOF -> (return something [-1]) -> back to menu.
 
+--> ισότητες στα head kai tail.
 --> CLEAN test checks.
---> [TEST + a\out-HUA]
+--> [TEST + a\out-HUA].
 
 
 

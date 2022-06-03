@@ -2,10 +2,30 @@
   "files": {
     "main.c": [
       {
+        "id": "3d625cb4-10c4-464a-87b9-68f4cad59239",
+        "line": 84,
+        "version": 10249,
+        "index": 3338
+      },
+      {
         "id": "d28e94e0-7ecf-4da7-bfc9-e0f59fb3aa39",
-        "line": 109,
-        "version": 10147,
-        "index": 4453
+        "line": 110,
+        "version": 10249,
+        "index": 4571
+      },
+      {
+        "id": "bdebc371-8fec-4566-ab77-5a49a88686ec",
+        "line": 147,
+        "version": 10249,
+        "index": 6070
+      }
+    ],
+    "student.c": [
+      {
+        "id": "491f3e73-7e32-4c69-95fd-080399f925a4",
+        "line": 484,
+        "version": 16866,
+        "index": 15033
       }
     ]
   }
